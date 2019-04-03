@@ -22,18 +22,24 @@ def read_pgm(filepath,subject_name,image_number):
     # print(len(raster))
     return raster
 
-num_list = []
+train_num_list = []
+test_num_list = []
 
 for i in range(1,41):
     for j in range(1,11):
         filepath = "/home/prakashjha/semester2/IPSC/project/att_faces/orl_faces/s{}/{}.pgm".format(str(i),str(j))
 
-        num_list.append(read_pgm(filepath,str(i),str(j)))
-        # print((num_list))
+        if j < 9:
+            train_num_list.append(read_pgm(filepath,str(i),str(j)))
+        else:
+            test_num_list.append(read_pgm(filepath,str(i),str(j)))
+        
 
+train_image_df = pd.DataFrame(train_num_list)
+test_image_df = pd.DataFrame(test_num_list)
 
-image_df = pd.DataFrame(num_list)
+train_image_df.to_csv('train_image_dataset.csv', index=False, header=None)
+test_image_df.to_csv('test_image_dataset.csv', index=False, header=None)
 
-image_df.to_csv('image_dataset.csv', index=False, header=None)
-
-print(image_df.shape)
+print(train_image_df.shape)
+print(test_image_df.shape)

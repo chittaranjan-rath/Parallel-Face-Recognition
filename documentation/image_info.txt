@@ -1,0 +1,18 @@
+refer to this link: http://netpbm.sourceforge.net/doc/pgm.html
+		    http://www0.cs.ucl.ac.uk/staff/Daniel.Alexander/D0b/pgmformat.txt
+
+A "magic number" for identifying the file type. A pgm image's magic number is the two characters "P5".
+Whitespace (blanks, TABs, CRs, LFs).
+A width, formatted as ASCII characters in decimal.
+Whitespace.
+A height, again in ASCII decimal.
+Whitespace.
+The maximum gray value (Maxval), again in ASCII decimal. Must be less than 65536, and more than zero.
+A single whitespace character (usually a newline).
+A raster of Height rows, in order from top to bottom. 
+
+
+Magic Number: "P5"
+Width: 112
+Height: 92
+Depth: 255
