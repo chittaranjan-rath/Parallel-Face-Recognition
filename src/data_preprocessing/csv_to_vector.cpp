@@ -16,7 +16,7 @@ int StrToInt(std::string const& s){
     return value;
 }
 
-void split_and_transform(vector<vector<int>>& image_pixel,vector<vector<string>>& img_info,string input){
+void split_and_transform(vector<vector<int>>& image_pixel,vector<string>& img_info,string input){
 
     vector<string> result; 
 
@@ -24,12 +24,11 @@ void split_and_transform(vector<vector<int>>& image_pixel,vector<vector<string>>
 
     vector<int> int_result;
 
-    vector<string> temp;
+    // vector<string> temp;
 
-    temp.push_back(result[0]);
-    temp.push_back(result[1]);
+    // temp.push_back(result);
 
-    img_info.push_back(temp);
+    img_info.push_back(result[0]);
 
     transform(result.begin()+2, result.end(), back_inserter(int_result), StrToInt);
 
@@ -66,14 +65,14 @@ void print_image(vector<int> img,string filename){
     delete[] buff;
 }
 
-vector<int> average_face(vector<vector<int>>& image_pixel,vector<vector<string>>& img_info,string subject_id){
+vector<int> average_face(vector<vector<int>>& image_pixel,vector<string>& img_info,string subject_id){
 
   vector<int> avg_face;
   int count = 0;
 
   for(int i = 0;i<image_pixel.size();i++){
 
-    if(img_info[i][0] == subject_id){
+    if(img_info[i] == subject_id){
 
       if(avg_face.size()==0){
         count++;
@@ -96,7 +95,7 @@ vector<int> average_face(vector<vector<int>>& image_pixel,vector<vector<string>>
   return avg_face;
 }
 
-vector<vector<int>> generate_all_avg_face(vector<vector<int>>& image_pixel,vector<vector<string>>& img_info,vector<string>& avg_face_info){
+vector<vector<int>> generate_all_avg_face(vector<vector<int>>& image_pixel,vector<string>& img_info,vector<string>& avg_face_info){
 
   vector<vector<int>> avg_face;
   string filename = "";
@@ -105,17 +104,17 @@ vector<vector<int>> generate_all_avg_face(vector<vector<int>>& image_pixel,vecto
 
   for(int i = 0;i<image_pixel.size();i++){
 
-    if(subject_id != img_info[i][0]){
+    if(subject_id != img_info[i]){
 
-        avg_face_info.push_back(img_info[i][0]);
+        avg_face_info.push_back(img_info[i]);
 
-        filename = img_info[i][0];
+        filename = img_info[i];
         print_image(image_pixel[i],filename);
         
-        subject_id = img_info[i][0];        
-        avg_face.push_back(average_face(image_pixel,img_info,img_info[i][0]));
+        subject_id = img_info[i];        
+        avg_face.push_back(average_face(image_pixel,img_info,img_info[i]));
         
-        filename = img_info[i][0]+"avg";
+        filename = img_info[i]+"avg";
         // print_image(avg_face[count],filename);
 
         count++;
@@ -125,7 +124,7 @@ vector<vector<int>> generate_all_avg_face(vector<vector<int>>& image_pixel,vecto
   return avg_face;
 }
 
-void read_from_csv(vector<vector<int>>& image,vector<vector<string>>& img_info,string filename){
+void read_from_csv(vector<vector<int>>& image,vector<string>& img_info,string filename){
 
   string line;
   ifstream image_dataset (filename);
@@ -160,7 +159,7 @@ double euclidean_distance(vector<int>image1,vector<int>image2){
   return dist;
 }
 
-void predict(vector<vector<int>>& avg_face,vector<vector<int>>& test_images,vector<string>& avg_face_info,vector<string>& predicted_image_info){
+void means_prediction(vector<vector<int>>& avg_face,vector<vector<int>>& test_images,vector<string>& avg_face_info,vector<string>& predicted_image_info){
 
   double min_distance = 0.0,temp;
 
@@ -188,11 +187,41 @@ void predict(vector<vector<int>>& avg_face,vector<vector<int>>& test_images,vect
 
     }
 
-  }
-    
+  } 
 }
 
-double calculate_accuracy(vector<string>& predicted_image_info,vector<vector<string>>& test_image_info){
+void knn_prediction(vector<vector<int>>& train_face,vector<vector<int>>& test_images,vector<string>& train_face_info,vector<string>& predicted_image_info){
+
+  double min_distance = 0.0,temp;
+
+  for(int i = 0;i<test_images.size();i++){
+  
+    min_distance = 0.0;
+
+    // #pragma omp parallel for schedule(static) num_threads(THREADS)
+    for(int j = 0;j<train_face.size();j++){
+
+      if(j==0){
+        min_distance = euclidean_distance(train_face[j],test_images[i]);
+        predicted_image_info[i] = train_face_info[j];
+      }else{
+
+        temp = euclidean_distance(train_face[j],test_images[i]);
+
+        if(temp<min_distance){
+
+          min_distance = temp;
+          predicted_image_info[i] = train_face_info[j];
+        }
+
+      }
+
+    }
+
+  } 
+}
+
+double calculate_accuracy(vector<string>& predicted_image_info,vector<string>& test_image_info){
 
   double total_size = predicted_image_info.size();
   double correct_prediction = 0.0;
@@ -200,7 +229,7 @@ double calculate_accuracy(vector<string>& predicted_image_info,vector<vector<str
 
   for(int i = 0;i<predicted_image_info.size();i++){
 
-    if(predicted_image_info[i] == test_image_info[i][0]){
+    if(predicted_image_info[i] == test_image_info[i]){
       correct_prediction += 1.0;
     }
 
@@ -211,11 +240,11 @@ double calculate_accuracy(vector<string>& predicted_image_info,vector<vector<str
   return accuracy;
 }
 
-void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicted,vector<vector<string>>& actual){
+void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicted,vector<string>& actual){
 
   string filename = "";
   for(int i = 0;i<actual.size();i++){
-    filename = actual[i][0]+" vs "+predicted[i];
+    filename = actual[i]+" vs "+predicted[i];
     print_image(test_images[i],filename);
   }
 
@@ -235,10 +264,10 @@ double t = omp_get_wtime();
   vector<vector<int>> avg_face;
   vector<vector<int>> train_images;
   vector<string> avg_face_info;
-  vector<vector<string>> train_image_info;
+  vector<string> train_image_info;
 
   vector<vector<int>> test_images;
-  vector<vector<string>> test_image_info;
+  vector<string> test_image_info;
   vector<string> predicted_image_info;
 
   double accuracy = 0.0;
@@ -255,8 +284,9 @@ double t = omp_get_wtime();
   
   predicted_image_info.resize(test_images.size());
 
-  predict(avg_face,test_images,avg_face_info,predicted_image_info);
+  // means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
 
+  knn_prediction(train_images,test_images,train_image_info,predicted_image_info);
 
   accuracy = calculate_accuracy(predicted_image_info,test_image_info);
 
