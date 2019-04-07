@@ -2,7 +2,8 @@
 #include <boost/algorithm/string.hpp>
 #include <omp.h>
 #define THREADS 4
-#define images_per_subject 8
+#define IMAGES_PER_SUBJECT 8
+
 using namespace std;
 
 
@@ -15,6 +16,11 @@ int StrToInt(std::string const& s){
     if (!(iss >> value)) throw std::runtime_error("invalid int");
     return value;
 }
+
+bool decending_order(const pair<double,string> &a,const pair<double,string> &b){
+
+       return (a.first > b.first); 
+} 
 
 void split_and_transform(vector<vector<int>>& image_pixel,vector<string>& img_info,string input,int i){
 
@@ -35,8 +41,6 @@ void print_image(vector<int> img,string filename){
 
     int temp = 0; 
     int width = 92, height = 112;  
-  
-    // string filename = "hello.pgm";
 
     unsigned char *buff = new unsigned char[width*height*sizeof(uchar)];
 
@@ -60,24 +64,37 @@ void print_image(vector<int> img,string filename){
 
     delete[] buff;
 }
+
 vector<vector<int>> parallel_average_face(vector<vector<int>>& image_pixel,vector<string>& img_info,vector<string>& avg_face_info){
-  vector<int> start_index(int(img_info.size()/8)); 
-  vector<int> end_index(int(img_info.size()/8)); 
+  
+  int num_subjects = int(img_info.size()/IMAGES_PER_SUBJECT);
+
+  vector<int> start_index(num_subjects); 
+  vector<int> end_index(num_subjects); 
+
   vector<vector<int>> avg_face;
-  avg_face.resize(int(img_info.size()/8),vector<int>(image_pixel[0].size()));
-  avg_face_info.resize(int(img_info.size()/8));
+
+  avg_face.resize(num_subjects,vector<int>(image_pixel[0].size()));
+  avg_face_info.resize(num_subjects);
+  
   string str = "avg_face_parallel/";
   // #pragma omp parallel
   // {
     // #pragma omp nowait
     #pragma omp parallel for 
-    for(int i=0;i<int(img_info.size()/8);i++){
-        avg_face_info[i] = img_info[8*i];
-        start_index[i] = images_per_subject * i;
-        end_index[i] = images_per_subject * (i+1) - 1 ;
+    for(int i=0;i<num_subjects;i++){
+
+        avg_face_info[i] = img_info[IMAGES_PER_SUBJECT*i];
+      
+        start_index[i] = IMAGES_PER_SUBJECT * i;
+        end_index[i] = IMAGES_PER_SUBJECT * (i+1) - 1 ;
+      
         for(int j= start_index[i];j<=end_index[i]; j++){
+      
           for (int k=0;k<image_pixel[0].size();k++)
+      
             avg_face[i][k] += image_pixel[j][k] ; 
+      
         }
     }
   // }
@@ -85,13 +102,14 @@ vector<vector<int>> parallel_average_face(vector<vector<int>>& image_pixel,vecto
     for(int i=0;i<avg_face.size();i++){
       
       for (int k=0;k<avg_face[0].size();k++)
-        avg_face[i][k] /= images_per_subject;
+        avg_face[i][k] /= IMAGES_PER_SUBJECT;
 
       print_image(avg_face[i],str+to_string(i));
     }
   
   return avg_face;
 }
+
 vector<int> average_face(vector<vector<int>>& image_pixel,vector<string>& img_info,string subject_id){
 
   vector<int> avg_face;
@@ -156,7 +174,6 @@ vector<vector<int>> generate_all_avg_face(vector<vector<int>>& image_pixel,vecto
   return avg_face;
 }
 
-// Parallaize split and transform operation 
 void read_from_csv(vector<vector<int>>& image,vector<string>& img_info,string filename){
 
   string line;
@@ -232,35 +249,53 @@ void means_prediction(vector<vector<int>>& avg_face,vector<vector<int>>& test_im
   } 
 }
 
-void knn_prediction(vector<vector<int>>& train_face,vector<vector<int>>& test_images,vector<string>& train_face_info,vector<string>& predicted_image_info){
+void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_image,vector<string>& train_image_info,vector<string>& predicted_image_info,int k){
 
   double min_distance = 0.0,temp;
+  int num_subjects = train_image.size()/IMAGES_PER_SUBJECT;
 
-  for(int i = 0;i<test_images.size();i++){
-  
-    min_distance = 0.0;
 
-    // #pragma omp parallel for schedule(static) num_threads(THREADS)
-    for(int j = 0;j<train_face.size();j++){
+  for(int i = 0;i<test_image.size();i++){
 
-      if(j==0){
-        min_distance = euclidean_distance(train_face[j],test_images[i]);
-        predicted_image_info[i] = train_face_info[j];
-      }else{
+    vector<pair<double,string>> distances(train_image.size());
+    vector<int> vote(num_subjects,0);
+    
+    for(int j = 0;j<train_image.size();j++){
 
-        temp = euclidean_distance(train_face[j],test_images[i]);
+      distances[j].first = euclidean_distance(test_image[i],train_image[j]);
+      distances[j].second = train_image_info[j];
+    }
 
-        if(temp<min_distance){
+    sort(distances.begin(),distances.end());
 
-          min_distance = temp;
-          predicted_image_info[i] = train_face_info[j];
-        }
+    for(int j=0;j<k;j++){
+      
+      string temp = distances[j].second;
 
-      }
+      temp.erase(temp.begin());
+
+      int index = stoi(temp)-1;
+
+      vote[index] += 1;
 
     }
 
-  } 
+    int max_vote = INT_MIN;
+    string prediction = "";
+
+
+
+    for(int j = 0;j<vote.size();j++){
+
+      if(vote[j]>max_vote){
+        max_vote = vote[j];
+        prediction = "S"+to_string(j+1);
+      }
+    }
+
+    predicted_image_info[i] = prediction;
+
+  }  
 }
 
 double calculate_accuracy(vector<string>& predicted_image_info,vector<string>& test_image_info){
@@ -291,18 +326,12 @@ void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicte
     filename = actual[i]+" vs "+predicted[i];
     print_image(test_images[i],parent_filename + filename);
   }
-
 }
 
 int main () {
 
 
-double t = omp_get_wtime();
-
-// #pragma omp parallel for schedule(dynamic) num_threads(THREADS)
-// #pragma omp parallel for schedule(static) num_threads(THREADS)
-// #pragma omp parallel for schedule(guided) num_threads(THREADS)
-// #pragma omp parallel for schedule(dynamic,100) num_threads(THREADS)
+  double t = omp_get_wtime();
 
   
   vector<vector<int>> avg_face,avg_face_parallel;
@@ -320,32 +349,37 @@ double t = omp_get_wtime();
 
   read_from_csv(train_images,train_image_info,filename);  
 
-  avg_face = parallel_average_face(train_images,train_image_info,avg_face_info);
-
-  // avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
-
   filename = "test_image_dataset.csv";
 
   read_from_csv(test_images,test_image_info,filename);  
   
   predicted_image_info.resize(test_images.size());
 
-  means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
+  //Means Prediction Model
+
+  // avg_face = parallel_average_face(train_images,train_image_info,avg_face_info);
+
+  // avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
+
+  // means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
   
-  visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
-
-  accuracy = calculate_accuracy(predicted_image_info,test_image_info);
-
-  cout<<"Mean face accuracy: "<<accuracy<<"\n";
-
-  //k==1
-  // knn_prediction(train_images,test_images,train_image_info,predicted_image_info);
+  // visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
 
   // accuracy = calculate_accuracy(predicted_image_info,test_image_info);
 
-  // cout<<"KNN Accuracy: "<<accuracy<<"\n";
+  // cout<<"Mean face accuracy: "<<accuracy<<"\n";
 
-  // visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_knn/");
+  //KNN Predction Model
+
+  int k = 1;
+
+  knn_prediction(train_images,test_images,train_image_info,predicted_image_info,k);
+
+  accuracy = calculate_accuracy(predicted_image_info,test_image_info);
+
+  cout<<"KNN Accuracy: "<<accuracy<<"\n";
+
+  visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_knn/");
 
   double f = omp_get_wtime();
 
