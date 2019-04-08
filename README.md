@@ -11,4 +11,5 @@ navigate to
 src/data_preprocessing
 
 g++ -fopenmp means_parallel.cpp
+
 ./a.out
