@@ -1,6 +1,7 @@
 #include <bits/stdc++.h> 
 #include <boost/algorithm/string.hpp>
 #include <omp.h>
+#include <unistd.h>
 #define THREADS 4
 #define IMAGES_PER_SUBJECT 8
 
@@ -345,11 +346,11 @@ int main () {
 
   double accuracy = 0.0;
 
-  string filename = "train_image_dataset.csv";
+  string filename = "../../data/train_image_dataset.csv";
 
   read_from_csv(train_images,train_image_info,filename);  
 
-  filename = "test_image_dataset.csv";
+  filename = "../../data/test_image_dataset.csv";
 
   read_from_csv(test_images,test_image_info,filename);  
   
@@ -357,17 +358,17 @@ int main () {
 
   //Means Prediction Model
 
-  // avg_face = parallel_average_face(train_images,train_image_info,avg_face_info);
+//   avg_face = parallel_average_face(train_images,train_image_info,avg_face_info);
 
-  // avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
+//   avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
 
-  // means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
+//   means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
   
-  // visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
+//   visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
 
-  // accuracy = calculate_accuracy(predicted_image_info,test_image_info);
+//   accuracy = calculate_accuracy(predicted_image_info,test_image_info);
 
-  // cout<<"Mean face accuracy: "<<accuracy<<"\n";
+//   cout<<"Mean face accuracy: "<<accuracy<<"\n";
 
   //KNN Predction Model
 
