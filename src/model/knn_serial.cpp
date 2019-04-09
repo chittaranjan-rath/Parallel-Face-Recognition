@@ -66,115 +66,6 @@ void print_image(vector<int> img,string filename){
     delete[] buff;
 }
 
-vector<vector<int>> parallel_average_face(vector<vector<int>>& image_pixel,vector<string>& img_info,vector<string>& avg_face_info){
-  
-  int num_subjects = int(img_info.size()/IMAGES_PER_SUBJECT);
-
-  vector<int> start_index(num_subjects); 
-  vector<int> end_index(num_subjects); 
-
-  vector<vector<int>> avg_face;
-
-  avg_face.resize(num_subjects,vector<int>(image_pixel[0].size()));
-  avg_face_info.resize(num_subjects);
-  
-  string str = "avg_face_parallel/";
-  // #pragma omp parallel
-  // {
-    // #pragma omp nowait
-    #pragma omp parallel for 
-    for(int i=0;i<num_subjects;i++){
-
-        avg_face_info[i] = img_info[IMAGES_PER_SUBJECT*i];
-      
-        start_index[i] = IMAGES_PER_SUBJECT * i;
-        end_index[i] = IMAGES_PER_SUBJECT * (i+1) - 1 ;
-      
-        for(int j= start_index[i];j<=end_index[i]; j++){
-      
-          for (int k=0;k<image_pixel[0].size();k++)
-      
-            avg_face[i][k] += image_pixel[j][k] ; 
-      
-        }
-    }
-  // }
-    #pragma omp parallel for
-    for(int i=0;i<avg_face.size();i++){
-      
-      for (int k=0;k<avg_face[0].size();k++)
-        avg_face[i][k] /= IMAGES_PER_SUBJECT;
-
-      print_image(avg_face[i],str+to_string(i));
-    }
-  
-  return avg_face;
-}
-
-vector<int> average_face(vector<vector<int>>& image_pixel,vector<string>& img_info,string subject_id){
-
-  vector<int> avg_face;
-  int count = 0;
-
-  for(int i = 0;i<image_pixel.size();i++){
-
-    if(img_info[i] == subject_id){
-
-      if(avg_face.size()==0){
-        count++;
-        avg_face = image_pixel[i];
-      }else{
-        count++;
-        for(int j = 0;j<image_pixel[i].size();j++){
-          avg_face[j] += image_pixel[i][j];
-        }
-      }
-
-    }
-
-  }
-
-  for(int i = 0;i<avg_face.size();i++){
-    avg_face[i] = (int)(avg_face[i]/count);
-  }
-  
-  return avg_face;
-}
-
-vector<vector<int>> generate_all_avg_face(vector<vector<int>>& image_pixel,vector<string>& img_info,vector<string>& avg_face_info){
-
-  vector<vector<int>> avg_face;
-  string filename = "";
-  string str = "avg_face/";
-  string subject_id = "";
-  int count = 0;
-
-
-
-  for(int i = 0;i<image_pixel.size();i++){
-
-    if(subject_id != img_info[i]){
-
-        avg_face_info.push_back(img_info[i]);
-
-        filename = img_info[i];
-        // print_image(image_pixel[i],filename);
-        
-        subject_id = img_info[i]; 
-        // parallel_average_face(image_pixel,img_info,img_info[i]);
-        avg_face.push_back(average_face(image_pixel,img_info,img_info[i]));
-        
-        filename = img_info[i]+"avg";
-
-        print_image(avg_face[count],str + filename);
-        
-        count++;
-
-    }
-  }
-  return avg_face;
-}
-
 void read_from_csv(vector<vector<int>>& image,vector<string>& img_info,string filename){
 
   string line;
@@ -215,39 +106,6 @@ double euclidean_distance(vector<int>image1,vector<int>image2){
   dist = sqrt(dist);
 
   return dist;
-}
-
-void means_prediction(vector<vector<int>>& avg_face,vector<vector<int>>& test_images,vector<string>& avg_face_info,vector<string>& predicted_image_info){
-
-  vector<double> min_distance(test_images.size());
-  
-
-  #pragma omp parallel for 
-  for(int i = 0;i<test_images.size();i++){
-    double temp;
-    min_distance[i] = 0.0;
-
-    // #pragma omp parallel for schedule(static) num_threads(THREADS)
-    for(int j = 0;j<avg_face.size();j++){
-
-      if(j==0){
-        min_distance[i] = euclidean_distance(avg_face[j],test_images[i]);
-        predicted_image_info[i] = avg_face_info[j];
-      }else{
-
-        temp = euclidean_distance(avg_face[j],test_images[i]);
-
-        if(temp<min_distance[i]){
-
-          min_distance[i] = temp;
-          predicted_image_info[i] = avg_face_info[j];
-        }
-
-      }
-
-    }
-
-  } 
 }
 
 void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_image,vector<string>& train_image_info,vector<string>& predicted_image_info,int k){
@@ -355,20 +213,6 @@ int main () {
   read_from_csv(test_images,test_image_info,filename);  
   
   predicted_image_info.resize(test_images.size());
-
-  //Means Prediction Model
-
-//   avg_face = parallel_average_face(train_images,train_image_info,avg_face_info);
-
-//   avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
-
-//   means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
-  
-//   visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
-
-//   accuracy = calculate_accuracy(predicted_image_info,test_image_info);
-
-//   cout<<"Mean face accuracy: "<<accuracy<<"\n";
 
   //KNN Predction Model
 

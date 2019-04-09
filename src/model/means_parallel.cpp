@@ -250,55 +250,6 @@ void means_prediction(vector<vector<int>>& avg_face,vector<vector<int>>& test_im
   } 
 }
 
-void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_image,vector<string>& train_image_info,vector<string>& predicted_image_info,int k){
-
-  double min_distance = 0.0,temp;
-  int num_subjects = train_image.size()/IMAGES_PER_SUBJECT;
-
-
-  for(int i = 0;i<test_image.size();i++){
-
-    vector<pair<double,string>> distances(train_image.size());
-    vector<int> vote(num_subjects,0);
-    
-    for(int j = 0;j<train_image.size();j++){
-
-      distances[j].first = euclidean_distance(test_image[i],train_image[j]);
-      distances[j].second = train_image_info[j];
-    }
-
-    sort(distances.begin(),distances.end());
-
-    for(int j=0;j<k;j++){
-      
-      string temp = distances[j].second;
-
-      temp.erase(temp.begin());
-
-      int index = stoi(temp)-1;
-
-      vote[index] += 1;
-
-    }
-
-    int max_vote = INT_MIN;
-    string prediction = "";
-
-
-
-    for(int j = 0;j<vote.size();j++){
-
-      if(vote[j]>max_vote){
-        max_vote = vote[j];
-        prediction = "S"+to_string(j+1);
-      }
-    }
-
-    predicted_image_info[i] = prediction;
-
-  }  
-}
-
 double calculate_accuracy(vector<string>& predicted_image_info,vector<string>& test_image_info){
 
   double total_size = predicted_image_info.size();
@@ -369,18 +320,6 @@ int main () {
   accuracy = calculate_accuracy(predicted_image_info,test_image_info);
 
   cout<<"Mean face accuracy: "<<accuracy<<"\n";
-
-  //KNN Predction Model
-
-  // int k = 1;
-
-  // knn_prediction(train_images,test_images,train_image_info,predicted_image_info,k);
-
-  // accuracy = calculate_accuracy(predicted_image_info,test_image_info);
-
-  // cout<<"KNN Accuracy: "<<accuracy<<"\n";
-
-  // visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_knn/");
 
   double f = omp_get_wtime();
 
