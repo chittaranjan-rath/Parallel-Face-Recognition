@@ -191,9 +191,9 @@ void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicte
 
 int main () {
 
+  create_output_directories();
 
   double t = omp_get_wtime();
-
   
   vector<vector<int>> avg_face,avg_face_parallel;
   vector<vector<int>> train_images;
