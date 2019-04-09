@@ -2,6 +2,8 @@
 #include <boost/algorithm/string.hpp>
 #include <omp.h>
 #include <unistd.h>
+#include "create_directories.h"
+
 #define THREADS 4
 #define IMAGES_PER_SUBJECT 8
 

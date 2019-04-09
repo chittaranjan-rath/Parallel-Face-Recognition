@@ -2,6 +2,8 @@
 #include <boost/algorithm/string.hpp>
 #include <omp.h>
 #include <unistd.h>
+#include "create_directories.h"
+
 #define THREADS 4
 #define IMAGES_PER_SUBJECT 8
 
@@ -285,7 +287,8 @@ int main () {
 
   double t = omp_get_wtime();
 
-  
+  create_output_directories();
+
   vector<vector<int>> avg_face,avg_face_parallel;
   vector<vector<int>> train_images;
   vector<string> avg_face_info;
