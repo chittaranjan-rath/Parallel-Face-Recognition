@@ -10,20 +10,20 @@ sudo apt install libboost-all-dev
 Navigate to
 src/model
 
-#To run Parallel KNN \n
+To run Parallel KNN
 To compile: g++ -fopenmp -o knn knn.cpp
 To run: ./knn
 
-#To run Serial KNN
+To run Serial KNN
 export OMP_NUM_THREADS=1
 Now follow the same command for running Parallel KNN
 
 
-#To run Parallel Means
+To run Parallel Means
 To compile: g++ -fopenmp -o means means.cpp
 To run: ./means
 
-#To run Serial Means
+To run Serial Means
 export OMP_NUM_THREADS=1
 Now follow the same command for running Parallel Means
 
