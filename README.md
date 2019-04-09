@@ -7,14 +7,25 @@ install boost
 sudo apt install libboost-all-dev
 
 
-navigate to
-src/data_preprocessing
-g++ create_directories.cpp
+Navigate to
+src/model
 
-then
-g++ -fopenmp means_parallel.cpp
+#To run Parallel KNN
+To compile: g++ -fopenmp -o knn knn.cpp
+To run: ./knn
 
-./a.out
+#To run Serial KNN
+export OMP_NUM_THREADS=1
+Now follow the same command for running Parallel KNN
+
+
+#To run Parallel Means
+To compile: g++ -fopenmp -o means means.cpp
+To run: ./means
+
+#To run Serial Means
+export OMP_NUM_THREADS=1
+Now follow the same command for running Parallel Means
 
 
 -------
