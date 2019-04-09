@@ -10,7 +10,7 @@ sudo apt install libboost-all-dev
 Navigate to
 src/model
 
-To run Parallel KNN
+<strong>To run Parallel KNN</strong><br>
 To compile: g++ -fopenmp -o knn knn.cpp
 To run: ./knn
 
