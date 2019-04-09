@@ -7,34 +7,34 @@ install boost
 sudo apt install libboost-all-dev
 
 
-Navigate to
+<strong>Navigate to</strong> : 
 src/model
 
 <strong>To run Parallel KNN</strong><br>
 To compile: g++ -fopenmp -o knn knn.cpp
 To run: ./knn
 
-To run Serial KNN
-export OMP_NUM_THREADS=1
+<strong>To run Serial KNN</strong><br>
+export OMP_NUM_THREADS=1<br>
 Now follow the same command for running Parallel KNN
 
 
-To run Parallel Means
-To compile: g++ -fopenmp -o means means.cpp
+<strong>To run Parallel Means</strong><br>
+To compile: g++ -fopenmp -o means means.cpp<br>
 To run: ./means
 
-To run Serial Means
-export OMP_NUM_THREADS=1
+<strong>To run Serial Means</strong><br>
+export OMP_NUM_THREADS=1<br>
 Now follow the same command for running Parallel Means
 
 
 -------
-For SVD Implementation 
+<strong>For SVD Implementation</strong>
 
 extract src.zip present inside folder Perform_SVD
 
 Ran on input data and perform dimensionality reduction till 86% contributing features taken cumulatively ( i.e. till 200 columns ) on input.
 
-Final result is saved in "PostSVD_NewDimension.ods" ( with 200 features ).
+Final result is saved in <i>PostSVD_NewDimension.ods</i> ( with 200 features ).
 
 
