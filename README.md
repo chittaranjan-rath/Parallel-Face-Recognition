@@ -33,7 +33,7 @@ Now follow the same command for running Parallel Means
 
 extract src.zip present inside folder Perform_SVD
 
-Ran on input data and perform dimensionality reduction till 86% contributing features taken cumulatively ( i.e. till 200 columns ) on input.
+Ran on input data and perform dimensionality reduction till 99% contributing features taken cumulatively ( i.e. till 200 columns ) on input.
 
 Final result is saved in <i>PostSVD_NewDimension.ods</i> ( with 200 features ).
 
