@@ -4,6 +4,7 @@
 #include "Eigen/Eigen"
 #include "Eigen/JacobiSVD.h"
 #include "Eigen/Core"
+#include "Eigen/Dense"
 #include <bits/stdc++.h> 
 #include<iostream>
 
@@ -71,7 +72,7 @@ vector<vector<float>> main_data()
     while(file >> row)
     {
 //        std::cout << "4th Element(" << row[0] << ":" << row[1] << row[10305] << ")\n";
-//	cout << row.size() << endl;
+	//cout << row.size() << endl;
 	vector<float> newData;
 	for(int i=2;i<row.size();i++)
 	{
@@ -97,14 +98,16 @@ vector<vector<float>> main_data()
 
 	cout << _data.size() << endl;
 */
+	
 	return _data;
 }
 
 MatrixXf getMatrix()
 {
+	cout << " Started Going For Data " << endl;
 	vector<vector<float>> _d = main_data();
 	cout << _d.size() << endl;
-	
+	cout << _d[0].size() << endl;
 	MatrixXf m(320,10304);
 	for(int i=0;i<_d.size();i++)
 	{
@@ -119,6 +122,7 @@ MatrixXf getMatrix()
 			m(i,j) = rand() % 100 + 2;
 	}
 	*/
+	cout << " End Going For Data " << endl;
 	return m;
 }
 
@@ -155,23 +159,28 @@ MatrixXf getCumulativeValue(MatrixXf eigenValueVector)
 	return SigMaVector;
 }
 
-MatrixXf reducedSigma(MatrixXf value,int reducedDimension)
+MatrixXf reducedUValue(MatrixXf value,int reducedDimension)
 {
 	//Consideinrg 200 vectors
-	MatrixXf reducedSigma(value.rows(),reducedDimension);
+	MatrixXf reducedU(value.rows(),reducedDimension);
 	for(int i=0;i<value.rows();i++)
 	{
 		for(int j=0;j<reducedDimension;j++)
 		{
-			reducedSigma(i,j) = value(i,j);
+			reducedU(i,j) = value(i,j);
 		}		
 	}
-	return reducedSigma;
+	return reducedU;
 }
 
-MatrixXf getNewData(MatrixXf sigmaVector,MatrixXf U)
+MatrixXf getNewData(MatrixXf originalData,MatrixXf U)
 {
-	return U * sigmaVector;
+	return originalData * U;
+}
+
+MatrixXf GetCovarianceMatrix(MatrixXf temp)
+{
+	return temp.transpose() * temp;
 }
 
 int main()
@@ -179,12 +188,19 @@ int main()
 	
 	//MatrixXf m = MatrixXf::Random(500,10000);
 	MatrixXf m = getMatrix();
+	cout << "Normalising " << endl;
 	
+	m.norm();
 
+	cout << " NOrmalising Ends" << endl;
+	
+	cout << "CovarianceMatrix Sterted " << endl;
+	MatrixXf CovarianceMatrix = GetCovarianceMatrix(m);
+	cout << "CovarianceMatrix End " << CovarianceMatrix.size() << endl;
 	//MatrixXf m(500,10100);
 
 	//cout << "Here is the matrix m:" << endl << m << endl;
-	JacobiSVD<MatrixXf> svd(m, ComputeThinU | ComputeThinV);
+	JacobiSVD<MatrixXf> svd(CovarianceMatrix, ComputeThinU | ComputeThinV);
 	//JacobiSVD<MatrixXf> svd(m);
 	cout << "Its singular values are:" << endl;// << svd.singularValues() << endl;
 	cout << "Its left singular vectors are the columns of the thin U matrix:" << endl;// << svd.matrixU() << endl;
@@ -193,30 +209,44 @@ int main()
 	//cout << "Now consider this rhs vector:" << endl << rhs << endl;
 	//cout << "A least-squares solution of m*x = rhs is:" << endl << svd.solve(rhs) << endl;
 
-	
-	freopen("Singular_Values.txt","w",stdout);
-	cout << svd.singularValues() << endl;
-	MatrixXf SigMaVector = getCumulativeValue(svd.singularValues());
-	MatrixXf reducedSigMaVector = reducedSigma(SigMaVector,200);
+	MatrixXf singularValues = svd.singularValues();
+	freopen("N_Singular_Values.txt","w",stdout);
+	cout << singularValues << endl;
+
 	MatrixXf U = svd.matrixU();
 	
-	freopen("V_Values.txt","w",stdout);
-	cout << svd.matrixV() << endl;
-	freopen("U_Values.txt","w",stdout);
+	MatrixXf SigMaVector = getCumulativeValue(singularValues);
+	
+	cout << "Getting Only 200 Columns " << endl;
+	MatrixXf reducedU = reducedUValue(U,200);
+
+	
+	//MatrixXf reducedU = U.leftCols(200);
+	cout << "GOT  Only 200 Columns " << endl;
+	
+	//freopen("V_Values.txt","w",stdout);
+	//cout << svd.matrixV() << endl;
+
+	freopen("N_U_Values.txt","w",stdout);
 	cout << U << endl;
 	/*
 	*/
 
-	freopen("Input_Test.txt","w",stdout);
+	freopen("N_Input_Test.txt","w",stdout);
 	cout << m << endl;
-	freopen("SigMaVector.txt","w",stdout);
-	cout << SigMaVector << endl;
-	freopen("reducedSigMaVector.txt","w",stdout);
-	cout << reducedSigMaVector << endl;
 
-	MatrixXf newData = getNewData(reducedSigMaVector,U);
-	freopen("newData.txt","w",stdout);
+	freopen("N_SigMaVector.txt","w",stdout);
+	cout << SigMaVector << endl;
+
+	freopen("N_reducedU.txt","w",stdout);
+	cout << reducedU << endl;
+
+	MatrixXf newData = getNewData(m,reducedU);
+	freopen("N_newData.txt","w",stdout);
 	cout << newData << endl;
+
+	freopen("N_CovarianceMatrix.txt","w",stdout);
+	cout << CovarianceMatrix << endl;
 
 	return 0;
 }
