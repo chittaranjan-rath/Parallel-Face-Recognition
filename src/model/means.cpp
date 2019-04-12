@@ -3,12 +3,13 @@
 #include <omp.h>
 #include <unistd.h>
 #include "create_directories.h"
+#include "plotting.h"
 
-#define THREADS 4
 #define IMAGES_PER_SUBJECT 8
 
 using namespace std;
 
+int THREADS  = 1;
 
 typedef unsigned char uchar;
 
@@ -84,7 +85,7 @@ vector<vector<int>> parallel_average_face(vector<vector<int>>& image_pixel,vecto
   // #pragma omp parallel
   // {
     // #pragma omp nowait
-    #pragma omp parallel for 
+    #pragma omp parallel for num_threads(THREADS)
     for(int i=0;i<num_subjects;i++){
 
         avg_face_info[i] = img_info[IMAGES_PER_SUBJECT*i];
@@ -101,7 +102,7 @@ vector<vector<int>> parallel_average_face(vector<vector<int>>& image_pixel,vecto
         }
     }
   // }
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(THREADS)
     for(int i=0;i<avg_face.size();i++){
       
       for (int k=0;k<avg_face[0].size();k++)
@@ -196,7 +197,7 @@ void read_from_csv(vector<vector<int>>& image,vector<string>& img_info,string fi
   }  
   image.resize(lines.size());
   img_info.resize(lines.size());
-  #pragma omp parallel for
+  #pragma omp parallel for num_threads(THREADS)
   for(int i=0;i<lines.size();i++){
     split_and_transform(image,img_info,lines[i],i);
   }
@@ -206,7 +207,7 @@ double euclidean_distance(vector<int>image1,vector<int>image2){
 
   double dist = 0.0;
   // #pragma omp parallel for schedule(static) num_threads(THREADS) 
-  #pragma omp parallel for reduction(+:dist)
+  #pragma omp parallel for reduction(+:dist) num_threads(THREADS)
   for(int i = 0;i<image1.size();i++){
 
     // #pragma omp atomic
@@ -224,7 +225,7 @@ void means_prediction(vector<vector<int>>& avg_face,vector<vector<int>>& test_im
   vector<double> min_distance(test_images.size());
   
 
-  #pragma omp parallel for 
+  #pragma omp parallel for num_threads(THREADS)
   for(int i = 0;i<test_images.size();i++){
     double temp;
     min_distance[i] = 0.0;
@@ -258,7 +259,7 @@ double calculate_accuracy(vector<string>& predicted_image_info,vector<string>& t
   double correct_prediction = 0.0;
   double accuracy = 0.0;
 
-  #pragma omp parallel for reduction(+:correct_prediction)
+  #pragma omp parallel for reduction(+:correct_prediction) num_threads(THREADS)
   for(int i = 0;i<predicted_image_info.size();i++){
 
     if(predicted_image_info[i] == test_image_info[i]){
@@ -275,9 +276,9 @@ double calculate_accuracy(vector<string>& predicted_image_info,vector<string>& t
 void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicted,vector<string>& actual,string parent_filename){
 
   string filename = "";
-  #pragma omp parallel for firstprivate(filename)
+  #pragma omp parallel for firstprivate(filename) num_threads(THREADS)
   for(int i = 0;i<actual.size();i++){
-    filename = actual[i]+" vs "+predicted[i];
+    filename = to_string(i) + actual[i]+" vs "+predicted[i];
     print_image(test_images[i],parent_filename + filename);
   }
 }
@@ -285,7 +286,7 @@ void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicte
 int main () {
 
 
-  double t = omp_get_wtime();
+  
 
   create_output_directories();
 
@@ -312,21 +313,40 @@ int main () {
 
   //Means Prediction Model
 
-  avg_face = parallel_average_face(train_images,train_image_info,avg_face_info);
+  int k = 1;
+  int NUM_TIME = 5;
+  double time[NUM_TIME];
+  double accuracy_list[NUM_TIME];
+  int threads[5] = {1,2,4,8,16}; 
 
-  avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
+  for(int i = 0;i<NUM_TIME;i++){
 
-  means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
-  
-  visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
+    THREADS = threads[i];
 
-  accuracy = calculate_accuracy(predicted_image_info,test_image_info);
+    double t = omp_get_wtime();
 
-  cout<<"Mean face accuracy: "<<accuracy<<"\n";
+    avg_face = parallel_average_face(train_images,train_image_info,avg_face_info);
+    avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
+    means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
+    
+    double f = omp_get_wtime();
 
-  double f = omp_get_wtime();
+    time[i] = f-t;
 
-  printf("%f\n",f-t);
+    // visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
+
+    accuracy = calculate_accuracy(predicted_image_info,test_image_info);
+
+    accuracy_list[i] = accuracy;
+
+    cout<<"Mean face accuracy: "<<accuracy<<"\n";
+    
+    printf("%f\n",f-t);
+
+  }
+
+  threads_vs_time_plot(threads, time, NUM_TIME);
+  // threads_vs_time_plot(threads, accuracy_list, NUM_TIME);
 
   return 0;
 

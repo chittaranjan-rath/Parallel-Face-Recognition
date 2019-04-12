@@ -3,12 +3,13 @@
 #include <omp.h>
 #include <unistd.h>
 #include "create_directories.h"
+#include "plotting.h"
 
-#define THREADS 4
 #define IMAGES_PER_SUBJECT 8
 
 using namespace std;
 
+int THREADS  = 1;
 
 typedef unsigned char uchar;
 
@@ -87,7 +88,7 @@ void read_from_csv(vector<vector<int>>& image,vector<string>& img_info,string fi
   }  
   image.resize(lines.size());
   img_info.resize(lines.size());
-  #pragma omp parallel for
+  #pragma omp parallel for num_threads(THREADS)
   for(int i=0;i<lines.size();i++){
     split_and_transform(image,img_info,lines[i],i);
   }
@@ -97,7 +98,7 @@ double euclidean_distance(vector<int>image1,vector<int>image2){
 
   double dist = 0.0;
   // #pragma omp parallel for schedule(static) num_threads(THREADS) 
-  #pragma omp parallel for reduction(+:dist)
+  #pragma omp parallel for reduction(+:dist) num_threads(THREADS)
   for(int i = 0;i<image1.size();i++){
 
     // #pragma omp atomic
@@ -115,12 +116,13 @@ void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_i
   double min_distance = 0.0,temp;
   int num_subjects = train_image.size()/IMAGES_PER_SUBJECT;
 
-
+  #pragma omp parallel for num_threads(THREADS)
   for(int i = 0;i<test_image.size();i++){
 
     vector<pair<double,string>> distances(train_image.size());
     vector<int> vote(num_subjects,0);
     
+    #pragma omp parallel for num_threads(THREADS)
     for(int j = 0;j<train_image.size();j++){
 
       distances[j].first = euclidean_distance(test_image[i],train_image[j]);
@@ -128,6 +130,7 @@ void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_i
     }
 
     sort(distances.begin(),distances.end());
+
 
     for(int j=0;j<k;j++){
       
@@ -165,7 +168,7 @@ double calculate_accuracy(vector<string>& predicted_image_info,vector<string>& t
   double correct_prediction = 0.0;
   double accuracy = 0.0;
 
-  #pragma omp parallel for reduction(+:correct_prediction)
+  #pragma omp parallel for reduction(+:correct_prediction) num_threads(THREADS)
   for(int i = 0;i<predicted_image_info.size();i++){
 
     if(predicted_image_info[i] == test_image_info[i]){
@@ -182,9 +185,9 @@ double calculate_accuracy(vector<string>& predicted_image_info,vector<string>& t
 void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicted,vector<string>& actual,string parent_filename){
 
   string filename = "";
-  #pragma omp parallel for firstprivate(filename)
+  #pragma omp parallel for firstprivate(filename) num_threads(THREADS)
   for(int i = 0;i<actual.size();i++){
-    filename = actual[i]+" vs "+predicted[i];
+    filename = to_string(i) + actual[i]+" vs "+predicted[i];
     print_image(test_images[i],parent_filename + filename);
   }
 }
@@ -193,8 +196,6 @@ int main () {
 
   create_output_directories();
 
-  double t = omp_get_wtime();
-  
   vector<vector<int>> avg_face,avg_face_parallel;
   vector<vector<int>> train_images;
   vector<string> avg_face_info;
@@ -218,19 +219,38 @@ int main () {
 
   //KNN Predction Model
 
-  int k = 1;
+  int k = 4;
+  int NUM_TIME = 5;
+  double time[NUM_TIME];
+  double accuracy_list[NUM_TIME];
+  // int threads[5] = {7,8,9,10,11};
+  // int threads[5] = {1,2,3,4,5};
+  int threads[5] = {1,2,4,8,16}; 
 
-  knn_prediction(train_images,test_images,train_image_info,predicted_image_info,k);
+  for(int i = 0;i<NUM_TIME;i++){
 
-  accuracy = calculate_accuracy(predicted_image_info,test_image_info);
+  	THREADS = threads[i];
 
-  cout<<"KNN Accuracy: "<<accuracy<<"\n";
+  	double t = omp_get_wtime();
+  	knn_prediction(train_images,test_images,train_image_info,predicted_image_info,k);
+	double f = omp_get_wtime();
+	
+	time[i] = f-t;
 
-  visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_knn/");
+	printf("%f\n",f-t);
 
-  double f = omp_get_wtime();
+	accuracy = calculate_accuracy(predicted_image_info,test_image_info);
 
-  printf("%f\n",f-t);
+	accuracy_list[i] = accuracy;
+
+	cout<<"KNN Accuracy: "<<accuracy<<"\n";
+
+	// visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_knn/");
+
+  }
+
+  threads_vs_time_plot(threads, time, NUM_TIME);
+  threads_vs_time_plot(threads, accuracy_list, NUM_TIME);
 
   return 0;
 
