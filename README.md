@@ -1,9 +1,11 @@
 # Parallel-Face-Recognition
 
-Data collection source URL: https://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html
+Data collection source URL: <br>
 
-install boost
+<i>https://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html</i><br>
+<i>https://fei.edu.br/~cet/facedatabase.html</i><br>
 
+install boost<br>
 sudo apt install libboost-all-dev
 
 
