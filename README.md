@@ -4,6 +4,9 @@ Data collection source URL: <br>
 
 <i>https://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html</i><br>
 <i>https://fei.edu.br/~cet/facedatabase.html</i><br>
+<i>https://cswww.essex.ac.uk/mv/allfaces/faces95.html</i><br>
+<i>https://cswww.essex.ac.uk/mv/allfaces/faces94.html</i><br>
+
 
 install boost<br>
 sudo apt install libboost-all-dev
