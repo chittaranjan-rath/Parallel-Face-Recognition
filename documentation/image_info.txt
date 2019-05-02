@@ -11,7 +11,7 @@ The maximum gray value (Maxval), again in ASCII decimal. Must be less than 65536
 A single whitespace character (usually a newline).
 A raster of Height rows, in order from top to bottom. 
 
-
+Image format : .pgm
 Magic Number: "P5"
 Width: 112
 Height: 92
@@ -31,6 +31,7 @@ represented by students and staff at FEI, between 19 and 40 years old with disti
 
 and female subjects are exactly the same and equal to 100. Figure 1 shows some examples of image variations from the FEI face database.
 
+Image format : .jpg
 
 #############################################################################################################
 
@@ -39,6 +40,7 @@ faces94 dataset:
 
 Number of subjects: 152
 Image per subject: 20
+Image format : .jpg
 
 Train: 14
 Test: 6
@@ -49,10 +51,21 @@ faces95 dataset:
 
 Number of subjects: 72
 Image per subject: 20
+Image format : .jpg
 
 Train: 14
 Test: 6
 
+#############################################################################################################
+
+Cropped Yale dataset:
+
+Number of subjects: 38
+Image per subject: 64
+Image format : .pgm
+
+Train: 40
+Test: 24
 
 
 
