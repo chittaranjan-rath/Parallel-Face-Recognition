@@ -30,3 +30,32 @@ rotation of up to about 180 degrees. Scale might vary about 10% and the original
 represented by students and staff at FEI, between 19 and 40 years old with distinct appearance, hairstyle, and adorns.  The number of male 
 
 and female subjects are exactly the same and equal to 100. Figure 1 shows some examples of image variations from the FEI face database.
+
+
+#############################################################################################################
+
+
+faces94 dataset:
+
+Number of subjects: 152
+Image per subject: 20
+
+Train: 14
+Test: 6
+
+#############################################################################################################
+
+faces95 dataset:
+
+Number of subjects: 72
+Image per subject: 20
+
+Train: 14
+Test: 6
+
+
+
+
+
+
+
