@@ -45,6 +45,8 @@ Image format : .jpg
 Train: 14
 Test: 6
 
+Width X Height: 180 x 200
+
 #############################################################################################################
 
 faces95 dataset:
@@ -56,6 +58,8 @@ Image format : .jpg
 Train: 14
 Test: 6
 
+Width X Height: 196 x 196
+
 #############################################################################################################
 
 Cropped Yale dataset:
@@ -66,6 +70,8 @@ Image format : .pgm
 
 Train: 40
 Test: 24
+
+Width X Height: 168 x 192
 
 
 

@@ -5,11 +5,11 @@
 #include "create_directories.h"
 #include "plotting.h"
 
-#define IMAGES_PER_SUBJECT 8
 
 using namespace std;
 
-int THREADS  = 1;
+int IMAGES_PER_SUBJECT = 8;
+int THREADS  = 7;
 
 typedef unsigned char uchar;
 
@@ -118,7 +118,7 @@ void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_i
 
   #pragma omp parallel for num_threads(THREADS)
   for(int i = 0;i<test_image.size();i++){
-
+  	cout<<"Processing test image "<<i<<"\n";
     vector<pair<double,string>> distances(train_image.size());
     vector<int> vote(num_subjects,0);
     
@@ -131,7 +131,7 @@ void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_i
 
     sort(distances.begin(),distances.end());
 
-
+    #pragma omp parallel for num_threads(THREADS)
     for(int j=0;j<k;j++){
       
       string temp = distances[j].second;
@@ -148,7 +148,7 @@ void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_i
     string prediction = "";
 
 
-
+    #pragma omp parallel for num_threads(THREADS)
     for(int j = 0;j<vote.size();j++){
 
       if(vote[j]>max_vote){
@@ -167,7 +167,7 @@ double calculate_accuracy(vector<string>& predicted_image_info,vector<string>& t
   double total_size = predicted_image_info.size();
   double correct_prediction = 0.0;
   double accuracy = 0.0;
-
+  // cout<<THREADS<<"\n";
   #pragma omp parallel for reduction(+:correct_prediction) num_threads(THREADS)
   for(int i = 0;i<predicted_image_info.size();i++){
 
@@ -207,11 +207,14 @@ int main () {
 
   double accuracy = 0.0;
 
-  string filename = "../../data/train_image_dataset.csv";
+  // string filename = "cYale/cYale_train_dataset.csv";
+
+  string filename = "cl.cam.ac.uk_facedatabase/train_image_dataset.csv";
 
   read_from_csv(train_images,train_image_info,filename);  
 
-  filename = "../../data/test_image_dataset.csv";
+  // filename = "cYale/cYale_test_dataset.csv";
+  filename = "cl.cam.ac.uk_facedatabase/test_image_dataset.csv";  				
 
   read_from_csv(test_images,test_image_info,filename);  
   
@@ -219,13 +222,14 @@ int main () {
 
   //KNN Predction Model
 
-  int k = 4;
+  int k = 2;
   int NUM_TIME = 5;
   double time[NUM_TIME];
   double accuracy_list[NUM_TIME];
-  // int threads[5] = {7,8,9,10,11};
-  // int threads[5] = {1,2,3,4,5};
-  int threads[5] = {1,2,4,8,16}; 
+  // int threads[NUM_TIME] = {7,8,9,10,11};
+  // int threads[NUM_TIME] = {1,2,3,4,5};
+  int threads[NUM_TIME] = {5,6,7,8,9};
+  // int threads[NUM_TIME] = {1}; 
 
   for(int i = 0;i<NUM_TIME;i++){
 
@@ -245,7 +249,7 @@ int main () {
 
 	cout<<"KNN Accuracy: "<<accuracy<<"\n";
 
-	// visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_knn/");
+	visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_knn/");
 
   }
 
