@@ -5,10 +5,9 @@
 #include "create_directories.h"
 #include "plotting.h"
 
-#define IMAGES_PER_SUBJECT 8
-
 using namespace std;
 
+int IMAGES_PER_SUBJECT = 40;
 int THREADS  = 1;
 
 typedef unsigned char uchar;
@@ -39,12 +38,14 @@ void split_and_transform(vector<vector<int>>& image_pixel,vector<string>& img_in
     transform(result.begin()+2, result.end(), back_inserter(int_result), StrToInt);
 
     image_pixel[i] = int_result;
+
 }
 
 void print_image(vector<int> img,string filename){
 
     int temp = 0; 
-    int width = 92, height = 112;  
+    // int width = 92, height = 112;
+    int width = 168, height = 192;
 
     unsigned char *buff = new unsigned char[width*height*sizeof(uchar)];
 
@@ -92,7 +93,8 @@ vector<vector<int>> parallel_average_face(vector<vector<int>>& image_pixel,vecto
       
         start_index[i] = IMAGES_PER_SUBJECT * i;
         end_index[i] = IMAGES_PER_SUBJECT * (i+1) - 1 ;
-      
+      	
+        #pragma omp collaspe(2) nowait
         for(int j= start_index[i];j<=end_index[i]; j++){
       
           for (int k=0;k<image_pixel[0].size();k++)
@@ -101,7 +103,7 @@ vector<vector<int>> parallel_average_face(vector<vector<int>>& image_pixel,vecto
       
         }
     }
-  // }
+
     #pragma omp parallel for num_threads(THREADS)
     for(int i=0;i<avg_face.size();i++){
       
@@ -227,10 +229,11 @@ void means_prediction(vector<vector<int>>& avg_face,vector<vector<int>>& test_im
 
   #pragma omp parallel for num_threads(THREADS)
   for(int i = 0;i<test_images.size();i++){
+  	cout<<"processing test image: "<<i<<"\n";
     double temp;
     min_distance[i] = 0.0;
 
-    // #pragma omp parallel for schedule(static) num_threads(THREADS)
+    #pragma omp parallel for schedule(static) num_threads(THREADS)
     for(int j = 0;j<avg_face.size();j++){
 
       if(j==0){
@@ -285,9 +288,6 @@ void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicte
 
 int main () {
 
-
-  
-
   create_output_directories();
 
   vector<vector<int>> avg_face,avg_face_parallel;
@@ -301,11 +301,19 @@ int main () {
 
   double accuracy = 0.0;
 
-  string filename = "../../data/train_image_dataset.csv";
+  // string filename = "cl.cam.ac.uk_facedatabase/train_image_dataset.csv";
+  string filename = "cYale/cYale_train_dataset.csv";
+  // string filename = "f95/faces95_train_dataset.csv";
+  // string filename = "f94/faces94_train_dataset.csv";
+
+  
 
   read_from_csv(train_images,train_image_info,filename);  
 
-  filename = "../../data/test_image_dataset.csv";
+  // filename = "cl.cam.ac.uk_facedatabase/test_image_dataset.csv";
+  filename = "cYale/cYale_test_dataset.csv";
+  // filename = "f94/faces94_test_dataset.csv";
+  // filename = "f95/faces95_test_dataset.csv";
 
   read_from_csv(test_images,test_image_info,filename);  
   
@@ -326,14 +334,14 @@ int main () {
     double t = omp_get_wtime();
 
     avg_face = parallel_average_face(train_images,train_image_info,avg_face_info);
-    avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
+    // avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
     means_prediction(avg_face,test_images,avg_face_info,predicted_image_info);
     
     double f = omp_get_wtime();
 
     time[i] = f-t;
 
-    // visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
+    visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_mean/");
 
     accuracy = calculate_accuracy(predicted_image_info,test_image_info);
 
