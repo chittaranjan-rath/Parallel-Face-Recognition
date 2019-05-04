@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int IMAGES_PER_SUBJECT = 8;
+int IMAGES_PER_SUBJECT = 14;
 int THREADS  = 7;
 int width = 92;
 int height = 112;
@@ -24,9 +24,9 @@ void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_i
     for(int j = 0;j<train_image.size();j++){
 
 
-      // distances[j].first = euclidean_distance(test_image[i],train_image[j],THREADS);
+      distances[j].first = euclidean_distance(test_image[i],train_image[j],THREADS);
       // distances[j].first = manhattan_distance(test_image[i],train_image[j],THREADS);
-      distances[j].first = chebyshev_distance(test_image[i],train_image[j],THREADS);
+      // distances[j].first = chebyshev_distance(test_image[i],train_image[j],THREADS);
       // distances[j].first = hellinger_distance(test_image[i],train_image[j],THREADS);
 
       distances[j].second = train_image_info[j];
@@ -84,20 +84,27 @@ int main () {
   double recall = 0.0;
   double f1 = 0.0;
 
-  // string filename = "cYale/cYale_train_dataset.csv";
-  // string filename = "f95/faces95_train_dataset.csv";
-  // string filename = "f94/faces94_train_dataset.csv";
-  string filename = "cl.cam.ac.uk_facedatabase/train_image_dataset.csv";
+  
+  // string filename = "../../data/Faces95/ReducedTrainingDataFaces95.csv";
+  // string filename = "../../data/Faces95/faces95_train_dataset.csv";
 
+  
+// string filename = "../../data/cYale_train_dataset/ReducedDataSet_Training.csv";
+  string filename = "../../data/cYale_train_dataset/cYale_train_dataset.csv";
+  
+  cout<<"read now"<<endl;
   read_from_csv(train_images,train_image_info,filename,THREADS);  
+  cout<<"read 4 train"<<endl;
+  
+  // filename = "../../data/Faces95/ReducedTestFaces95.csv";
+  // filename = "../../data/Faces95/faces95_test_dataset.csv";				
 
-  // filename = "cYale/cYale_test_dataset.csv";
-  // filename = "f95/faces95_test_dataset.csv";
-  // filename = "f94/faces94_test_dataset.csv";
-  filename = "cl.cam.ac.uk_facedatabase/test_image_dataset.csv";  				
+  //  filename = "../../data/cYale_train_dataset/ReducedTestData.csv";
+  filename = "../../data/cYale_train_dataset/cYale_test_dataset.csv";				
 
   read_from_csv(test_images,test_image_info,filename,THREADS);  
-  
+  cout<<"test_image_info "<<test_image_info.size()<<endl;
+  cout<<"train_image_info "<<train_image_info.size()<<endl;
   predicted_image_info.resize(test_images.size());
 
   //KNN Predction Model
@@ -111,7 +118,7 @@ int main () {
   double f1_score_list[NUM_TIME];
   // int threads[NUM_TIME] = {7,8,9,10,11};
   // int threads[NUM_TIME] = {1,2,3,4,5};
-  int threads[NUM_TIME] = {1,2,3,4,6,7,8,9,12,24};
+  int threads[NUM_TIME] = {5,2,3,4,6,7,8,9,12,24};
   // int threads[NUM_TIME] = {1}; 
 
   for(int i = 0;i<NUM_TIME;i++){
