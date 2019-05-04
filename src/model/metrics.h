@@ -59,13 +59,12 @@ vector<vector<int>> contigency_matrix(vector<string>& predicted_image_info,vecto
 	return confusion_matrix;
 }
 
-
 double accuracy_score(vector<string>& predicted_image_info,vector<string>& test_image_info,int threads){
 
   double total_size = predicted_image_info.size();
   double correct_prediction = 0.0;
   double accuracy = 0.0;
-  // cout<<threads<<"\n";
+  
   #pragma omp parallel for reduction(+:correct_prediction) num_threads(threads)
   for(int i = 0;i<predicted_image_info.size();i++){
 
@@ -75,7 +74,8 @@ double accuracy_score(vector<string>& predicted_image_info,vector<string>& test_
 
   }
 
-  accuracy = correct_prediction/total_size;
+  if(correct_prediction>0)
+  	accuracy = correct_prediction/total_size;
 
   return accuracy;
 }
@@ -100,8 +100,10 @@ double precision_score(vector<string>& predicted_image_info,vector<string>& test
 				fp += confusion_matrix[i][j];
 		}		
 	
-		class_precision[i] = double(tp/(tp+fp));
-
+		if(tp>0)
+			class_precision[i] = double(tp/(tp+fp));
+		else
+			class_precision[i] = 0.0;
 	}
 
 	
@@ -138,8 +140,10 @@ double recall_score(vector<string>& predicted_image_info,vector<string>& test_im
 				fn += confusion_matrix[j][i];
 		}		
 	
-		class_recall[i] = double(tp/(tp+fn));
-
+		if(tp>0)
+			class_recall[i] = double(tp/(tp+fn));
+		else
+			class_recall[i] = 0.0;
 	}
 
 	
@@ -161,10 +165,12 @@ double f1_score(vector<string>& predicted_image_info,vector<string>& test_image_
 	double recall = recall_score(predicted_image_info,test_image_info,threads);
 	double precision = precision_score(predicted_image_info,test_image_info,threads);
 
-	double f1 = 2*(recall * precision)/(recall+precision);
+	double f1 = 0.0;
+
+	if(recall != 0 && precision != 0)
+		f1 = 2*(recall * precision)/(recall+precision);
 
 	return f1;
-  
 }
 
 

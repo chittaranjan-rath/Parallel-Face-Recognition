@@ -133,14 +133,19 @@ void means_prediction(vector<vector<int>>& avg_face,vector<vector<int>>& test_im
 
       if(j==0){
         
-        min_distance[i] = euclidean_distance(avg_face[j],test_images[i],THREADS);
+        // min_distance[i] = euclidean_distance(avg_face[j],test_images[i],THREADS);
         // min_distance[i] = manhattan_distance(avg_face[j],test_images[i],THREADS);
+        // min_distance[i] = chebyshev_distance(avg_face[j],test_images[i],THREADS);
+        min_distance[i] = hellinger_distance(avg_face[j],test_images[i],THREADS);
 
         predicted_image_info[i] = avg_face_info[j];
       }else{
 
-        temp = euclidean_distance(avg_face[j],test_images[i],THREADS);
+        // temp = euclidean_distance(avg_face[j],test_images[i],THREADS);
         // temp = manhattan_distance(avg_face[j],test_images[i],THREADS);
+        // temp = chebyshev_distance(avg_face[j],test_images[i],THREADS);
+        temp = hellinger_distance(avg_face[j],test_images[i],THREADS);
+
 
         if(temp<min_distance[i]){
 

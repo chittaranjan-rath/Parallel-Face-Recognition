@@ -8,7 +8,8 @@ int width = 92;
 int height = 112;
 
 
-void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_image,vector<string>& train_image_info,vector<string>& predicted_image_info,int k){
+void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_image,vector<string>& train_image_info,
+                                            vector<string>& predicted_image_info,int k){
 
   double min_distance = 0.0,temp;
   int num_subjects = train_image.size()/IMAGES_PER_SUBJECT;
@@ -22,8 +23,12 @@ void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_i
     #pragma omp parallel for num_threads(THREADS)
     for(int j = 0;j<train_image.size();j++){
 
-      distances[j].first = manhattan_distance(test_image[i],train_image[j],THREADS);
+
       // distances[j].first = euclidean_distance(test_image[i],train_image[j],THREADS);
+      // distances[j].first = manhattan_distance(test_image[i],train_image[j],THREADS);
+      distances[j].first = chebyshev_distance(test_image[i],train_image[j],THREADS);
+      // distances[j].first = hellinger_distance(test_image[i],train_image[j],THREADS);
+
       distances[j].second = train_image_info[j];
     }
 
@@ -106,7 +111,7 @@ int main () {
   double f1_score_list[NUM_TIME];
   // int threads[NUM_TIME] = {7,8,9,10,11};
   // int threads[NUM_TIME] = {1,2,3,4,5};
-  int threads[NUM_TIME] = {5,2,3,4,6,7,8,9,12,24};
+  int threads[NUM_TIME] = {1,2,3,4,6,7,8,9,12,24};
   // int threads[NUM_TIME] = {1}; 
 
   for(int i = 0;i<NUM_TIME;i++){
