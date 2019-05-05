@@ -22,6 +22,7 @@ using namespace std;
 
 using namespace std;
 
+int THREADS = 4;
 
 /*
  * A class to create and write data in a csv file.
@@ -72,17 +73,33 @@ void CSVWriter::addDatainRow(T first, T last)
 
 bool checkSpaces(string temp_value)
 {
-		bool flag = false;int icc = 0;
-		while(temp_value[icc]!='\0')
+	int flag = 0;
+
+
+	#pragma omp parallel for reduction(+:flag) num_threads(THREADS)
+	for(int i = 0;i<temp_value.length();i++){
+		if(temp_value[i]!=' ')
 		{
-			if(temp_value[icc]!=' ')
-			{
-				flag = true;
-				break;
-			}	
-			icc++;
-		} 
-		return flag;
+			flag += 1;
+		}	
+	}
+
+	if(flag>0)
+		return true;
+	
+	
+	return false;
+
+	// while(temp_value[icc]!='\0')
+	// {
+	// 	if(temp_value[icc]!=' ')
+	// 	{
+	// 		flag = true;
+	// 		break;
+	// 	}	
+	// 	icc++;
+	// } 
+	// return flag;
 }
 
 vector<string> split(string str, string token){
@@ -113,7 +130,7 @@ vector<string> split(string str, string token){
     return result;
 }
 
-int debugging = 1;
+int debugging = 0;
 
 MatrixXf getTestData(vector<string> _d)
 {
@@ -130,9 +147,11 @@ MatrixXf getTestData(vector<string> _d)
 	MatrixXf m(_d.size(),sizeofNumberofColumns);
 
 	cout << "Analyse Test Data " << endl;
+		#pragma omp parallel for num_threads(THREADS)
 	for(int i=0;i<_d.size();i++)
 	{
 		vector<string> _eachRowData = split(_d[i],",");
+		#pragma omp parallel for num_threads(THREADS)
 		for(int k=2;k<_eachRowData.size();k++)
 		{
 			m(i,k-2) = atof(_eachRowData[k].c_str());
@@ -189,9 +208,12 @@ MatrixXf getVData(vector<string> _d,int reducedDimension)
 	MatrixXf m(_d.size(),sizeofNumberofColumns);
 
 	cout << "Analyse V Data " << endl;
+
+	#pragma omp parallel for num_threads(THREADS)
 	for(int i=0;i<_d.size();i++)
 	{
 		vector<string> _eachRowData = split(_d[i]," ");
+		#pragma omp parallel for num_threads(THREADS)
 		for(int k=0;k<sizeofNumberofColumns;k++)
 		{
 			m(i,k) = atof(_eachRowData[k].c_str());

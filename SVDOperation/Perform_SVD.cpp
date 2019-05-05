@@ -4,8 +4,16 @@
 #include "Eigen/Eigen"
 #include "Eigen/JacobiSVD.h"
 #include "Eigen/Core"
+#include "omp.h"
 #include <bits/stdc++.h> 
 #include<iostream>
+
+#include <iterator>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
 
 using namespace Eigen;
 using namespace std;
@@ -15,12 +23,8 @@ using Eigen::Vector3f;
 using namespace std;
 
 
-#include <iterator>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <string>
+
+int THREADS = 4;
 
 class CSVRow
 {
@@ -72,7 +76,7 @@ void writeToFile(string fileName,string content)
 */
 vector<vector<float> > main_data()
 {
-    std::ifstream file("./All/cl.cam.ac.uk_facedatabase/train_image_dataset.csv");
+    std::ifstream file("toy_train.csv");
 
     CSVRow row;
     int index=0;
@@ -81,10 +85,12 @@ vector<vector<float> > main_data()
     {
 //        std::cout << "4th Element(" << row[0] << ":" << row[1] << row[10305] << ")\n";
 //	cout << row.size() << endl;
-	vector<float> newData;
+	vector<float> newData(row.size()-2,0.0);
+	#pragma omp parallel for num_threads(THREADS)
 	for(int i=2;i<row.size();i++)
 	{
-		newData.push_back(atof(row[i].c_str()));
+		newData[i-2] = atof(row[i].c_str());
+		// newData.push_back(atof(row[i].c_str()));
 	}
 	_data.push_back(newData);
 	index++;
@@ -121,6 +127,8 @@ MatrixXf getMatrix()
 		//MatrixXf m(320,10304);
 			
 		MatrixXf m(_d.size(),_d[0].size());
+
+		#pragma omp collapse(2)
 		for(int i=0;i<_d.size();i++)
 		{
 			for(int j=0;j<_d[0].size();j++)
@@ -150,12 +158,15 @@ MatrixXf getCumulativeValue(MatrixXf eigenValueVector)
 	cout << sizeofeigen << endl;
 	float cumulative_sum = 0;
 	MatrixXf SigMaVector(sizeofeigen,sizeofeigen);
+
+	#pragma omp parallel for reduction(+:cumulative_sum) num_threads(THREADS)
 	for(int i=0;i<eigenValueVector.rows();i++)
 	{
 		cumulative_sum += eigenValueVector(i,0);
 		SigMaVector(i,i)=eigenValueVector(i,0);
 	}
 
+	#pragma omp collapse(2)
 	for(int i=0;i<sizeofeigen;i++)
 		for(int j=0;j<sizeofeigen;j++)
 			if(i!=j)
@@ -163,6 +174,8 @@ MatrixXf getCumulativeValue(MatrixXf eigenValueVector)
 	
 	
 	MatrixXf percentageVector(eigenValueVector.rows(),1);
+
+	// #pragma omp parallel for
 	for(int i=0;i<eigenValueVector.rows();i++)
 	{
 		if(i==0)
@@ -170,8 +183,10 @@ MatrixXf getCumulativeValue(MatrixXf eigenValueVector)
 		else
 		{
 			percentageVector(i,0) = (eigenValueVector(i,0)/cumulative_sum) + percentageVector(i-1,0);
+	
 			if(percentageVector(i,0)>0.90 && ColumnTillFound==-1)
 			{
+				// #pragma omp critical
 				ColumnTillFound = i;
 			}
 		}
@@ -179,11 +194,10 @@ MatrixXf getCumulativeValue(MatrixXf eigenValueVector)
 	}
 	//cout << "Cumulative Completetd	:	" << ColumnTillFound << endl;
 
-	freopen("./All/cl.cam.ac.uk_facedatabase/NoofColumnsTaken.txt","w",stdout);
-	cout << ColumnTillFound << endl;
 
-	freopen("./All/cl.cam.ac.uk_facedatabase/CumulativePercentage.txt","w",stdout);
-	cout << percentageVector << endl;
+
+	// freopen("CumulativePercentage.txt","w",stdout);
+	// cout << percentageVector << endl;
 	return SigMaVector;
 }
 
@@ -191,6 +205,7 @@ MatrixXf reducedSigma(MatrixXf value,int reducedDimension)
 {
 	//Consideinrg 200 vectors
 	MatrixXf reducedSigma(value.rows(),reducedDimension);
+	#pragma omp collapse(2)
 	for(int i=0;i<value.rows();i++)
 	{
 		for(int j=0;j<reducedDimension;j++)
@@ -210,7 +225,8 @@ MatrixXf getNewData(MatrixXf sigmaVector,MatrixXf U)
 
 int main()
 {
-	
+
+	double t = omp_get_wtime();	
 	//MatrixXf m = MatrixXf::Random(500,10000);
 	MatrixXf m = getMatrix();
 	
@@ -228,30 +244,39 @@ int main()
 	//cout << "A least-squares solution of m*x = rhs is:" << endl << svd.solve(rhs) << endl;
 
 	
-	freopen("./All/cl.cam.ac.uk_facedatabase/Singular_Values.txt","w",stdout);
-	cout << svd.singularValues() << endl;
 	MatrixXf SigMaVector = getCumulativeValue(svd.singularValues());
 	ColumnTillFound = ColumnTillFound!=-1 ? ColumnTillFound : 10; 
 	MatrixXf reducedSigMaVector = reducedSigma(SigMaVector,ColumnTillFound);
 	MatrixXf U = svd.matrixU();
+	MatrixXf newData = getNewData(reducedSigMaVector,U);
 	
-	freopen("./All/cl.cam.ac.uk_facedatabase/V_Values.txt","w",stdout);
+	double f = omp_get_wtime();
+	// printf("Time: %f\n",f-t);
+
+	freopen("Singular_Values.txt","w",stdout);
+	cout << svd.singularValues() << endl;
+	
+	freopen("V_Values.txt","w",stdout);
 	cout << svd.matrixV() << endl;
-	freopen("./All/cl.cam.ac.uk_facedatabase/U_Values.txt","w",stdout);
+	freopen("U_Values.txt","w",stdout);
 	cout << U << endl;
 	/*
 	*/
+	freopen("NoofColumnsTaken.txt","w",stdout);
+	cout << ColumnTillFound << endl;
 
-	freopen("./All/cl.cam.ac.uk_facedatabase/Input_Data.txt","w",stdout);
+	freopen("Input_Data.txt","w",stdout);
 	cout << m << endl;
-	freopen("./All/cl.cam.ac.uk_facedatabase/SigMaVector.txt","w",stdout);
+	freopen("SigMaVector.txt","w",stdout);
 	cout << SigMaVector << endl;
-	freopen("./All/cl.cam.ac.uk_facedatabase/reducedSigMaVector.txt","w",stdout);
+	freopen("reducedSigMaVector.txt","w",stdout);
 	cout << reducedSigMaVector << endl;
 
-	MatrixXf newData = getNewData(reducedSigMaVector,U);
-	freopen("./All/cl.cam.ac.uk_facedatabase/newData.txt","w",stdout);
+	freopen("newData.txt","w",stdout);
 	cout << newData << endl;
+
+	
+	
 
 	return 0;
 }

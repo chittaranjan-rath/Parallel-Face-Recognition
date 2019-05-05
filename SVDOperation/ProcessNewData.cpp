@@ -3,9 +3,11 @@
 #include <sstream> //std::stringstream
 #include <vector>
 #include <string>
+#include "omp.h"
 #include <bits/stdc++.h> 
 using namespace std;
 
+int THREADS = 4;
 
 /*
  * A class to create and write data in a csv file.
@@ -56,17 +58,33 @@ void CSVWriter::addDatainRow(T first, T last)
 
 bool checkSpaces(string temp_value)
 {
-		bool flag = false;int icc = 0;
-		while(temp_value[icc]!='\0')
+	int flag = 0;
+
+
+	#pragma omp parallel for reduction(+:flag) num_threads(THREADS)
+	for(int i = 0;i<temp_value.length();i++){
+		if(temp_value[i]!=' ')
 		{
-			if(temp_value[icc]!=' ')
-			{
-				flag = true;
-				break;
-			}	
-			icc++;
-		} 
-		return flag;
+			flag += 1;
+		}	
+	}
+
+	if(flag>0)
+		return true;
+	
+	
+	return false;
+
+	// while(temp_value[icc]!='\0')
+	// {
+	// 	if(temp_value[icc]!=' ')
+	// 	{
+	// 		flag = true;
+	// 		break;
+	// 	}	
+	// 	icc++;
+	// } 
+	// return flag;
 }
 
 vector<string> split(string str, string token){
@@ -121,6 +139,8 @@ int main(int argc,char** argv){
     strStream << inFile.rdbuf(); //read the file
     std::string str = strStream.str(); //str holds the content of the file
 
+	double t = omp_get_wtime();
+
     //	std::cout << str << std::endl; //you can do anything with the string!!!
 	vector<string> _data = split(str,"\n");
 	cout << _data.size() << endl;	
@@ -138,13 +158,15 @@ int main(int argc,char** argv){
        fs.open(myfile,nameTemp);
 	*/
 	
-	int subjectNumber = 1;
+	int subjectNumber	 = 1;
 	int photoNumber = 1;
 
 	ofstream fout;
 
 	fout.open(destination.c_str(),ios::app);
 	
+	// Can't apply bcoz we are writing in file
+	// #pragma omp parallel for num_threads(THREADS)
 	for(int i=0;i<_data.size() ; i++)
 	{
 		string final_string = "";
@@ -176,6 +198,7 @@ int main(int argc,char** argv){
 			subjectNumber++;
 		}
 		
+		#pragma omp parallel for num_threads(THREADS)
 		for(int i=0;i<_nested_data.size();i++)
 		{
 			fout << _nested_data[i] << ',';
@@ -185,6 +208,9 @@ int main(int argc,char** argv){
 		
 	}
 	fout.close();
+
+	double f = omp_get_wtime();
+	printf("%f\n",f-t);
 
 	return 0;
 }
