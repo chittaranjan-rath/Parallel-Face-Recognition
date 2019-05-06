@@ -187,14 +187,14 @@ int main () {
 
   
 
-  read_from_csv(train_images,train_image_info,filename,THREADS);  
+  read_from_csv(train_images,train_image_info,filename,THREADS,1);  
 
   filename = "cl.cam.ac.uk_facedatabase/test_image_dataset.csv";
   // filename = "cYale/cYale_test_dataset.csv";
   // filename = "f94/faces94_test_dataset.csv";
   // filename = "f95/faces95_test_dataset.csv";
 
-  read_from_csv(test_images,test_image_info,filename,THREADS);  
+  read_from_csv(test_images,test_image_info,filename,THREADS,0);  
   
   predicted_image_info.resize(test_images.size());
 

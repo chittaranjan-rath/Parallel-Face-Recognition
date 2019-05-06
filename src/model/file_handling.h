@@ -2,7 +2,7 @@
 #define FILE_H
 
 using namespace std;
-
+int IMAGES_PER_SUBJECT = 0;
 typedef unsigned char uchar;
 
 int StrToInt(std::string const& s){
@@ -18,7 +18,7 @@ bool decending_order(const pair<double,string> &a,const pair<double,string> &b){
        return (a.first > b.first); 
 } 
 
-void split_and_transform(vector<vector<int>>& image_pixel,vector<string>& img_info,string input,int i){
+void split_and_transform(vector<vector<int> >& image_pixel,vector<string>& img_info,string input,int i){
     // cout<<"input "<<input<<endl;
     vector<string> result; 
 
@@ -37,11 +37,13 @@ void split_and_transform(vector<vector<int>>& image_pixel,vector<string>& img_in
     transform(result.begin()+2, result.end(), back_inserter(int_result), StrToInt);
     image_pixel[i] = int_result;
 }
-
-void read_from_csv(vector<vector<int>>& image,vector<string>& img_info,string filename,int threads){
+  
+void read_from_csv(vector<vector<int> >& image,vector<string>& img_info,string filename,int threads,int istrain){
 
   string line;
-  ifstream image_dataset (filename);
+  //ifstream image_dataset (filename);
+  ifstream image_dataset;
+  image_dataset.open(filename.c_str(),ios::app);
   std::vector<string> lines;
   int lines_read = 0;
   if(image_dataset.is_open()){
@@ -62,13 +64,22 @@ void read_from_csv(vector<vector<int>>& image,vector<string>& img_info,string fi
   image.resize(lines.size());
   // cout<<"b4 line 57 "<<endl;
   img_info.resize(lines.size());
+
   // cout<<"b4 line 60 "<<endl;
   #pragma omp parallel for num_threads(threads)
   for(int i=0;i<lines.size();i++){
     // cout<<"inside for  "<<endl;
     split_and_transform(image,img_info,lines[i],i);
   }
-  cout<<"file_hnadling over "<<endl;
+  int cnt = 1;
+  for(int i = 1;i<img_info.size();i++){
+    if(img_info[0]==img_info[i])
+      cnt++;
+    else
+      break;
+  }
+  if(istrain)
+    IMAGES_PER_SUBJECT = cnt;
 }
 
 #endif

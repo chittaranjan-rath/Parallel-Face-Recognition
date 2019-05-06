@@ -6,7 +6,7 @@ using namespace std;
 
 
 void print_image(vector<int> img,string filename,int width, int height){
-
+      // cout<<"in print image "<<width<<" "<<height<<endl;
     int temp = 0; 
 
     unsigned char *buff = new unsigned char[width*height*sizeof(uchar)];
@@ -33,13 +33,17 @@ void print_image(vector<int> img,string filename,int width, int height){
 }
 
 
-void visulalize_output(vector<vector<int>>& test_images,vector<string>& predicted,vector<string>& actual,string parent_filename,
+void visulalize_output(vector<vector<int> >& test_images,vector<string>& predicted,vector<string>& actual,string parent_filename,
 																							int width,int height,int threads){
+
 
   string filename = "";
   #pragma omp parallel for firstprivate(filename) num_threads(threads)
   for(int i = 0;i<actual.size();i++){
-    filename = to_string(i) + actual[i]+" vs "+predicted[i];
+    		ostringstream str2;
+		str2 << i ;
+		string sNew = str2.str();
+    filename = sNew + actual[i]+" vs "+predicted[i];
     print_image(test_images[i],parent_filename + filename,width,height);
   }
 }

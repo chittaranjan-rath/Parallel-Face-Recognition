@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int IMAGES_PER_SUBJECT = 14;
+
 int THREADS  = 7;
 int width = 92;
 int height = 112;
@@ -66,8 +66,26 @@ void knn_prediction(vector<vector<int>>& train_image,vector<vector<int>>& test_i
 }
 
 
-int main () {
+int main (int argv, char **argc) {
 
+  cout<<argv<<endl;
+  string s1(argc[1]); // train dataset
+  string s2(argc[2]); // test datasret
+  string s3(argc[3]); //widtht
+  string s4(argc[4]); //heigjt
+  string s5(argc[5]); //distance critereia name
+  string s6(argc[6]); // k kmeans
+  string s7(argc[7]); // k knn
+  
+  cout<<s1<<" "<<s2<<" "<<s3<<" "<<s4<<" "<<s5<<" "<<s6<<" "<<s7<<endl;
+  if((int)argv!=8){
+    cout<<"not enough parameters .... ex ./a.out width height"<<endl;
+  }
+  else{
+      width = stoi(s1);
+      height  = stoi(s2);
+  }
+  
   create_output_directories();
 
   vector<vector<int>> avg_face,avg_face_parallel;
@@ -86,23 +104,23 @@ int main () {
 
   
   // string filename = "../../data/Faces95/ReducedTrainingDataFaces95.csv";
-  // string filename = "../../data/Faces95/faces95_train_dataset.csv";
+  string filename = "../../data/Faces95/faces95_train_dataset.csv";
 
   
 // string filename = "../../data/cYale_train_dataset/ReducedDataSet_Training.csv";
-  string filename = "../../data/cYale_train_dataset/cYale_train_dataset.csv";
+  // string filename = "../../data/cYale_train_dataset/cYale_train_dataset.csv";
   
   cout<<"read now"<<endl;
-  read_from_csv(train_images,train_image_info,filename,THREADS);  
+  read_from_csv(train_images,train_image_info,filename,THREADS,1);  
   cout<<"read 4 train"<<endl;
   
   // filename = "../../data/Faces95/ReducedTestFaces95.csv";
-  // filename = "../../data/Faces95/faces95_test_dataset.csv";				
+  filename = "../../data/Faces95/faces95_test_dataset.csv";				
 
   //  filename = "../../data/cYale_train_dataset/ReducedTestData.csv";
-  filename = "../../data/cYale_train_dataset/cYale_test_dataset.csv";				
+  // filename = "../../data/cYale_train_dataset/cYale_test_dataset.csv";				
 
-  read_from_csv(test_images,test_image_info,filename,THREADS);  
+  read_from_csv(test_images,test_image_info,filename,THREADS,0);  
   cout<<"test_image_info "<<test_image_info.size()<<endl;
   cout<<"train_image_info "<<train_image_info.size()<<endl;
   predicted_image_info.resize(test_images.size());
@@ -118,8 +136,8 @@ int main () {
   double f1_score_list[NUM_TIME];
   // int threads[NUM_TIME] = {7,8,9,10,11};
   // int threads[NUM_TIME] = {1,2,3,4,5};
-  int threads[NUM_TIME] = {5,2,3,4,6,7,8,9,12,24};
-  // int threads[NUM_TIME] = {1}; 
+  // int threads[NUM_TIME] = {1,2,3,4,6,7,8,9,12,13,14,15,16,17,18,19};
+  int threads[NUM_TIME] = {1}; 
 
   for(int i = 0;i<NUM_TIME;i++){
 
@@ -130,7 +148,10 @@ int main () {
     double f = omp_get_wtime();
 
     time[i] = f-t;
-
+    ofstream myfile;
+    myfile.open ("knn_op.csv");
+    myfile << THREADS<<","<<to_string(time[i])<<"\n";
+    myfile.close();
     printf("%f\n",f-t);
 
     accuracy = accuracy_score(predicted_image_info,test_image_info,THREADS);
@@ -152,7 +173,7 @@ int main () {
     cout<<"Confusion Matrix: \n";
     contigency_matrix(predicted_image_info,test_image_info,THREADS,true);
     
-
+  
     visulalize_output(test_images,predicted_image_info,test_image_info,"prediction_knn/",width,height,THREADS);
 
   }
