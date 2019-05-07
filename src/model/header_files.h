@@ -6,6 +6,7 @@
 #define hel 44
 
 #include <bits/stdc++.h> 
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <omp.h>
 #include <unistd.h>
@@ -25,6 +26,8 @@
 #include "knn.h"
 #include "means.h"
 #include "kmeans.h"
+#include "ensemble.h"
+using namespace std;
 #endif
 
 

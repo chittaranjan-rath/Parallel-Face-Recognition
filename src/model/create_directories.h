@@ -29,6 +29,16 @@ void create_output_directories(){
     {
         printf("already exists/Error creating directory prediction_mean \n");
     }
+    dir_err = mkdir("prediction_kmean", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    if (-1 == dir_err)
+    {
+        printf("already exists/Error creating directory prediction_mean \n");
+    }
+    dir_err = mkdir("prediction_ensemble", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    if (-1 == dir_err)
+    {
+        printf("already exists/Error creating directory prediction_mean \n");
+    }
 
 
 }

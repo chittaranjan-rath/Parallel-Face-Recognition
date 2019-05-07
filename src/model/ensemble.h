@@ -41,6 +41,7 @@ vector<string> ApplyEnsemble(vector<string> predicted_KMeans,vector<string> pred
 	return final_prediction_Col;
 }
 
+/*
 int main()
 {
 
@@ -138,5 +139,6 @@ int main()
         }
         myfile.close();
 }
+*/
 
 #endif
