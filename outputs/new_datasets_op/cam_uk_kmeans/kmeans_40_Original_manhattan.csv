@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+40,../../data/cam_uk/train_image_dataset.csv,1,6.95326e-310,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,2,2.10403e-317,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,4,1.34599e-312,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,6,6.95326e-310,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,8,3.95253e-322,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,10,6.95326e-310,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,12,6.95326e-310,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,14,1.97626e-323,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,16,6.95326e-310,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,18,2.08801e-317,manhattan,0.9125,0.933333,0.9125,0.922799
+40,../../data/cam_uk/train_image_dataset.csv,20,6.95326e-310,manhattan,0.9125,0.933333,0.9125,0.922799

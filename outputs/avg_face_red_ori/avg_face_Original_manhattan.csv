@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/Faces95/faces95_train_dataset.csv,1,9.80394,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,2,5.5233,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,4,2.94917,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,6,2.08271,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,8,1.6511,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,10,1.38008,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,12,1.1645,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,14,1.05154,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,16,0.942343,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,18,1.08741,manhattan,0.75463,0.821966,0.75463,0.78686
+../../data/Faces95/faces95_train_dataset.csv,20,1.20138,manhattan,0.75463,0.821966,0.75463,0.78686

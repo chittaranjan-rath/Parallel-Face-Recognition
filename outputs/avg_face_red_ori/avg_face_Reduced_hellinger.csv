@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/Faces95/ReducedTrainingDataFaces95.csv,1,0.968832,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,2,0.624531,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,4,0.271164,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,6,0.187317,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,8,0.154018,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,10,0.129148,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,12,0.110097,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,14,0.103284,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,16,0.0898666,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,18,0.103789,hellinger,0.0138889,0.000192901,0.0138889,0.000380518
+../../data/Faces95/ReducedTrainingDataFaces95.csv,20,0.0978166,hellinger,0.0138889,0.000192901,0.0138889,0.000380518

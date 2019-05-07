@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,1,3.12693,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,2,1.60894,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,4,0.820257,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,6,0.573214,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,8,0.43661,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,10,0.35978,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,12,0.299548,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,14,0.260618,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,16,0.229508,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,18,0.323788,chebyshev,0.689815,0.747991,0.689815,0.717726
+7,../../data/Faces95/ReducedTrainingDataFaces95.csv,20,0.315122,chebyshev,0.689815,0.747991,0.689815,0.717726

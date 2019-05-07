@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/cYale/cYale_train_dataset.csv,1,9.91407,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,2,5.03805,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,4,2.59953,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,6,2.02095,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,8,1.59432,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,10,1.30288,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,12,1.12009,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,14,1.00272,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,16,0.88097,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,18,1.04667,manhattan,0.104167,0.272999,0.104167,0.150795
+../../data/cYale/cYale_train_dataset.csv,20,1.13567,manhattan,0.104167,0.272999,0.104167,0.150795

@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/cYale/cYale_train_dataset.csv,1,12.9543,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,2,6.58569,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,4,3.35066,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,6,2.48957,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,8,1.9876,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,10,1.62121,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,12,1.37807,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,14,1.22208,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,16,1.09018,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,18,1.4454,chebyshev,0.064693,0.103199,0.064693,0.0795304
+../../data/cYale/cYale_train_dataset.csv,20,1.53215,chebyshev,0.064693,0.103199,0.064693,0.0795304

@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+0,train_image_dataset.csv,1,3.58623,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,2,1.79094,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,4,1.05483,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,6,1.10522,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,8,1.04788,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,10,1.03936,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,12,1.09583,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,14,1.01263,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,16,1.2899,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,18,1.49152,euclidean,0.025,0.000625,0.025,0.00121951
+0,train_image_dataset.csv,20,1.43989,euclidean,0.025,0.000625,0.025,0.00121951

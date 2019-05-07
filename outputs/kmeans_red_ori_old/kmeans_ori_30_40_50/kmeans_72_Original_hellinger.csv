@@ -1,0 +1,4 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+72,../../data/Faces95/faces95_train_dataset.csv,30,45.822,hellinger,0.664352,0.789237,0.664352,0.72143
+72,../../data/Faces95/faces95_train_dataset.csv,40,165.963,hellinger,0.664352,0.789237,0.664352,0.72143
+72,../../data/Faces95/faces95_train_dataset.csv,50,225.96,hellinger,0.664352,0.789237,0.664352,0.72143

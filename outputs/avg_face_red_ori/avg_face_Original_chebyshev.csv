@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/Faces95/faces95_train_dataset.csv,1,12.9718,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,2,7.12321,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,4,3.72263,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,6,2.62779,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,8,2.08346,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,10,1.78796,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,12,1.44212,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,14,1.30616,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,16,1.16164,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,18,1.36964,chebyshev,0.247685,0.351796,0.247685,0.2907
+../../data/Faces95/faces95_train_dataset.csv,20,1.38457,chebyshev,0.247685,0.351796,0.247685,0.2907

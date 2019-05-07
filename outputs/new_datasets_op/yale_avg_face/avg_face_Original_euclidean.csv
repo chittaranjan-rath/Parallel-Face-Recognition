@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/cYale/cYale_train_dataset.csv,1,24.7513,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,2,12.5178,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,4,6.39139,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,6,4.62685,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,8,3.63777,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,10,2.96312,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,12,2.48843,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,14,2.20468,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,16,1.94654,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,18,2.34286,euclidean,0.127193,0.409591,0.127193,0.194108
+../../data/cYale/cYale_train_dataset.csv,20,2.2523,euclidean,0.127193,0.409591,0.127193,0.194108

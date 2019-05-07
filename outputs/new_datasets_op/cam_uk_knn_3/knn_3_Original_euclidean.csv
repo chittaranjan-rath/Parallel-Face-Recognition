@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+3,../../data/cam_uk/train_image_dataset.csv,1,5.83752,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,2,2.9207,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,4,1.46515,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,6,1.05369,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,8,0.796798,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,10,0.636582,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,12,0.5615,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,14,0.493288,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,16,0.411442,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,18,0.413284,euclidean,0.9375,0.929167,0.9375,0.933315
+3,../../data/cam_uk/train_image_dataset.csv,20,0.523621,euclidean,0.9375,0.929167,0.9375,0.933315

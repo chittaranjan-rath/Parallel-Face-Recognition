@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/cam_uk/train_image_dataset.csv,1,0.930116,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,2,0.609147,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,4,0.255045,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,6,0.185962,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,8,0.149294,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,10,0.118636,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,12,0.107564,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,14,0.0961096,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,16,0.0966339,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,18,0.114162,hellinger,0.9125,0.941667,0.9125,0.926854
+../../data/cam_uk/train_image_dataset.csv,20,0.103242,hellinger,0.9125,0.941667,0.9125,0.926854

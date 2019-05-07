@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+3,../../data/cYale/ReducedDataSet_Training.csv,1,9.90098,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,2,5.14819,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,4,2.61685,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,6,1.80233,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,8,1.40868,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,10,1.15079,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,12,0.951149,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,14,0.849072,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,16,0.74168,manhattan,0.861842,0.886881,0.861842,0.874182
+3,../../data/cYale/ReducedDataSet_Training.csv,18,1.0739,manhattan,0.862939,0.887274,0.862939,0.874937
+3,../../data/cYale/ReducedDataSet_Training.csv,20,0.993365,manhattan,0.862939,0.887274,0.862939,0.874937

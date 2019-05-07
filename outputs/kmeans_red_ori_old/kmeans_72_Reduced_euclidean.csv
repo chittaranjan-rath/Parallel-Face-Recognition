@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,1,5.42871,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,2,4.17387,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,4,3.957,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,6,3.79597,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,8,4.05183,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,10,4.32468,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,12,4.60914,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,14,4.93135,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,16,5.0242,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,18,5.50356,euclidean,0.0138889,0.000192901,0.0138889,0.000380518
+72,../../data/Faces95/ReducedTrainingDataFaces95.csv,20,5.93265,euclidean,0.0138889,0.000192901,0.0138889,0.000380518

@@ -1,12 +1,12 @@
-
 #include "header_files.h"
 
 using namespace std;
+
 int THREADS = 4;
 int width = 92;
 int height = 112;
-string code_dist_m(int dist_criteria)
-{
+
+string code_dist_m(int dist_criteria){
 
     if (dist_criteria == euc)
         return "euclidean";
@@ -17,31 +17,34 @@ string code_dist_m(int dist_criteria)
     else if (dist_criteria == hel)
         return "hellinger";
 }
-int main(int argv, char **argc)
-{
+
+int main(int argv, char **argc){
 
     cout << argv << endl;
     string s1(argc[1]); // train dataset
     string s2(argc[2]); // test datasret
-    string s3(argc[3]); //widtht
-    string s4(argc[4]); //heigjt
+    string s3(argc[3]); //width
+    string s4(argc[4]); //height
     string s5(argc[5]); //distance critereia name
     string s6(argc[6]); // k kmeans
     string s7(argc[7]); // k knn
     string s8(argc[8]); // chosse algo
+    
     string filename_train, filename_test;
+    
     int k_kmeans, k_knn, choose_algo, distance_measure;
-    cout << s1 << " " << s2 << " " << s3 << " " << s4 << " " << s5 << " " << s6 << " " << s7 << endl;
-    if ((int)argv != 9)
-    {
+    
+    cout << s1 << " " << s2 << " " << s3 << " " << s4 << " " << s5 << " " << s6 << " " << s7 << " "<< s8<<endl;
+
+    if ((int)argv != 9){
+
         cout << "not enough parameters .... ex ./a.out ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv width height DISTANCE_MEASURE(11223344) K-KMEANS k-knn choosealgo(0123)" << endl;
         //KNN
         //./a.out ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 2 1
         //AVG_FACE
         //./a.out ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 0 2
     }
-    else
-    {
+    else{
 
         filename_train = s1;
         filename_test = s2;
@@ -52,7 +55,9 @@ int main(int argv, char **argc)
         k_knn = atoi(s7.c_str());
         choose_algo = atoi(s8.c_str());
     }
+
     create_output_directories();
+    
     vector<string> train_image_info;
     vector<vector<int>> train_images;
     vector<vector<int>> test_images;
@@ -107,9 +112,10 @@ int main(int argv, char **argc)
             THREADS = threads[i];
 
             double t = omp_get_wtime();
-
+            // cout<<"IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n";
+            // cout<<THREADS<<"\n";
             kmeans(train_images, train_image_info, k_kmeans, width, height, distance_measure, THREADS, predicted_image_info, test_images, test_image_info);
-
+            // cout<<"IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n";
             double f = omp_get_wtime();
 
             printf("time = %f\n", f - t);
@@ -155,7 +161,7 @@ int main(int argv, char **argc)
             }
             // contigency_matrix(predicted_image_info, test_image_info, THREADS, true);
 
-            // visulalize_output(test_images, predicted_image_info, test_image_info, "prediction_knn/", width, height, THREADS);
+            visulalize_output(test_images, predicted_image_info, test_image_info, "prediction_kmean/", width, height, THREADS);
         }
         myfile.close();
         tempFile.close();
@@ -246,7 +252,7 @@ int main(int argv, char **argc)
 
             // contigency_matrix(predicted_image_info, test_image_info, THREADS, true);
 
-            // visulalize_output(test_images, predicted_image_info, test_image_info, "prediction_knn/", width, height, THREADS);
+            visulalize_output(test_images, predicted_image_info, test_image_info, "prediction_knn/", width, height, THREADS);
         }
         myfile.close();
         tempFile.close();
@@ -340,7 +346,7 @@ int main(int argv, char **argc)
             myfile << f1 << "\n";
             // contigency_matrix(predicted_image_info, test_image_info, THREADS, true);
 
-            // visulalize_output(test_images, predicted_image_info, test_image_info, "prediction_knn/", width, height, THREADS);
+            visulalize_output(test_images, predicted_image_info, test_image_info, "prediction_mean/", width, height, THREADS);
         }
         myfile.close();
         tempFile.close();

@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+3,../../data/cYale/cYale_train_dataset.csv,1,373.948,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,2,188.63,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,4,95.0782,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,6,73.8768,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,8,59.2493,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,10,48.4036,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,12,41.5639,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,14,36.8337,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,16,32.3052,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,18,34.7306,manhattan,0.571272,0.698275,0.571272,0.628421
+3,../../data/cYale/cYale_train_dataset.csv,20,35.4352,manhattan,0.571272,0.698275,0.571272,0.628421

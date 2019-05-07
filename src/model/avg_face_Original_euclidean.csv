@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+train_image_dataset.csv,1,0.510293,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,2,0.25553,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,4,0.166179,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,6,0.167987,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,8,0.172639,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,10,0.172405,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,12,0.154151,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,14,0.151161,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,16,0.153641,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,18,0.145447,euclidean,0.9,0.925,0.9,0.912329
+train_image_dataset.csv,20,0.158722,euclidean,0.9,0.925,0.9,0.912329

@@ -1,6 +1,6 @@
-
 #ifndef MEANS_H
 #define MEANS_H
+
 vector<int> average_face(vector<vector<int> > &image_pixel, vector<string> &img_info, string subject_id)
 {
 

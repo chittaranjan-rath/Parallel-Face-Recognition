@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+38,../../data/cYale/ReducedDataSet_Training.csv,1,6.95334e-310,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,2,2.10403e-317,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,4,1.34599e-312,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,6,6.95334e-310,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,8,4.50588e-321,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,10,6.95334e-310,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,12,6.95334e-310,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,14,1.97626e-323,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,16,6.95334e-310,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,18,2.08801e-317,chebyshev,0,0,0,0
+38,../../data/cYale/ReducedDataSet_Training.csv,20,6.95334e-310,chebyshev,0,0,0,0

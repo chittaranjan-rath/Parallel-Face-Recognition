@@ -1,0 +1,4 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+72,../../data/Faces95/faces95_train_dataset.csv,30,36.7537,manhattan,0.659722,0.757763,0.659722,0.705352
+72,../../data/Faces95/faces95_train_dataset.csv,40,130.557,manhattan,0.659722,0.757763,0.659722,0.705352
+72,../../data/Faces95/faces95_train_dataset.csv,50,131.615,manhattan,0.659722,0.757763,0.659722,0.705352

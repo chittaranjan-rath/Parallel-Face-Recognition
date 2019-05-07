@@ -94,6 +94,7 @@ int findMinDistanceToClusterIndex(vector<vector<int>> &cluster_centers, vector<i
     int retindex = 0;
     for (int i = 0; i < cluster_centers.size(); i++)
     {
+
         double temp;
         if (dist_criteria == euc)
             temp = euclidean_distance(cluster_centers[i], image, THREADS);
@@ -165,6 +166,7 @@ void clustering(vector<vector<pair<vector<int>, string>>> &clustered_points, vec
     // #pragma omp parallel for num_threads(THREADS)
     for (int i = 0; i < image_pixel.size(); i++)
     {
+        
         int clusterindex = findMinDistanceToClusterIndex(cluster_centers, image_pixel[i], dist_m, THREADS);
         // cout<<"clusterindex = "<<clusterindex<<" img_info[i] "<<img_info[i]<<endl;
         clustered_points[clusterindex].push_back({image_pixel[i], img_info[i]});
@@ -249,6 +251,7 @@ void kmeans(vector<vector<int>> &image_pixel, vector<string> &img_info, int k, i
     vector<string> cluster_names_copy(k);
     while (!convergence)
     {
+
         c_limit++;
         vector<vector<pair<vector<int>, string>>> clustered_points(k, vector<pair<vector<int>, string>>());
         vector<string> cluster_names(k," ");

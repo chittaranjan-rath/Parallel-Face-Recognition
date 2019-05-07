@@ -1,0 +1,4 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+72,../../data/Faces95/faces95_train_dataset.csv,30,146.919,chebyshev,0.162037,0.282647,0.162037,0.205986
+72,../../data/Faces95/faces95_train_dataset.csv,40,147.631,chebyshev,0.162037,0.282647,0.162037,0.205986
+72,../../data/Faces95/faces95_train_dataset.csv,50,147.584,chebyshev,0.162037,0.282647,0.162037,0.205986

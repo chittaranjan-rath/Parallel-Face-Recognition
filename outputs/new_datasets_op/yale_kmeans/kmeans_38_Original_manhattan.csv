@@ -1,0 +1,12 @@
+k,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+38,../../data/cYale/cYale_train_dataset.csv,1,6.9532e-310,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,2,2.10403e-317,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,4,1.34599e-312,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,6,6.9532e-310,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,8,4.50588e-321,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,10,6.9532e-310,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,12,6.9532e-310,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,14,1.97626e-323,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,16,6.9532e-310,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,18,2.08801e-317,manhattan,0.0559211,0.13077,0.0559211,0.0783411
+38,../../data/cYale/cYale_train_dataset.csv,20,6.9532e-310,manhattan,0.0559211,0.13077,0.0559211,0.0783411

@@ -13,8 +13,8 @@ A raster of Height rows, in order from top to bottom.
 
 Image format : .pgm
 Magic Number: "P5"
-Width: 112
-Height: 92
+Width: 92
+Height: 112
 Depth: 255
 
 #############################################################################################################

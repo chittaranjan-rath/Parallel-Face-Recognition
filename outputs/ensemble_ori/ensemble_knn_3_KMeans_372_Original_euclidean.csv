@@ -1,0 +1,12 @@
+KNN,KMeans,dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+3,372,../../data/Faces95/faces95_train_dataset.csv,1,6.95328e-310,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,2,2.11002e-317,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,4,1.34599e-312,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,6,6.95328e-310,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,8,6.95328e-310,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,10,2.10544e-317,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,12,6.95328e-310,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,14,6.95328e-310,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,16,6.95328e-310,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,18,2.09453e-317,euclidean,0.722222,0.794168,0.722222,0.756488
+3,372,../../data/Faces95/faces95_train_dataset.csv,20,0,euclidean,0.722222,0.794168,0.722222,0.756488

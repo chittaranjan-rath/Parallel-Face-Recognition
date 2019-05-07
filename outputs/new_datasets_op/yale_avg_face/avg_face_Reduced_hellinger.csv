@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/cYale/ReducedDataSet_Training.csv,1,1.30416,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,2,0.675271,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,4,0.33713,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,6,0.237371,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,8,0.190037,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,10,0.156919,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,12,0.131481,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,14,0.118007,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,16,0.104858,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,18,0.113288,hellinger,0.0263158,0.000692521,0.0263158,0.00134953
+../../data/cYale/ReducedDataSet_Training.csv,20,0.108758,hellinger,0.0263158,0.000692521,0.0263158,0.00134953

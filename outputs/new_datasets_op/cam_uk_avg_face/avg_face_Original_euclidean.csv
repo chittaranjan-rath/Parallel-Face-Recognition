@@ -1,0 +1,12 @@
+dataset_name,Threads,Time,Distance_measure,Accuracy,Recall,Precision,F1score
+../../data/cam_uk/train_image_dataset.csv,1,0.780248,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,2,0.548208,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,4,0.247308,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,6,0.161688,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,8,0.123868,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,10,0.104361,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,12,0.0972954,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,14,0.0905634,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,16,0.0808745,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,18,0.0806715,euclidean,0.9,0.925,0.9,0.912329
+../../data/cam_uk/train_image_dataset.csv,20,0.0923226,euclidean,0.9,0.925,0.9,0.912329
