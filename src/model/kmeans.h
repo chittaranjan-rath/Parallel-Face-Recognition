@@ -67,6 +67,7 @@ void random_initialize_clusters(vector<vector<int>> &cluster_centers, vector<vec
     srand(time(0));
     // for(int tempi=0; tempi<avg_face[0].size(); tempi++)
             // cout<<"S1: "<<avg_face[0][0]<<" ";
+    #pragma omp parallel for num_threads(THREADS)
     for (int i = 0; i < cluster_centers.size(); i++)
     {
         cluster_centers[i] = avg_face[i];
@@ -77,7 +78,7 @@ void random_initialize_clusters(vector<vector<int>> &cluster_centers, vector<vec
         // }
     }
 }
-double findDistance(vector<int> clustercenter, vector<int> image)
+/*double findDistance(vector<int> clustercenter, vector<int> image)
 {
     // cout<<"clustercenter.size()="<<clustercenter.size()<<" "<<" image size = "<<image.size()<<endl;
     double dist = 0.0;
@@ -87,11 +88,13 @@ double findDistance(vector<int> clustercenter, vector<int> image)
         dist += temp * temp;
     }
     return dist;
-}
+}*/
 int findMinDistanceToClusterIndex(vector<vector<int>> &cluster_centers, vector<int> image, int dist_criteria, int THREADS)
 {
     double mindist = INT_MAX * 1.0;
     int retindex = 0;
+    //  #pragma omp parallel for reduction(min:mindist) num_threads(threads)
+
     for (int i = 0; i < cluster_centers.size(); i++)
     {
         double temp;
@@ -261,7 +264,7 @@ void kmeans(vector<vector<int>> &image_pixel, vector<string> &img_info, int k, i
         error = calc_error(cluster_names, clustered_points, image_pixel, img_info, THREADS);
         // cout<<"calc_error done"<<endl;
         // printClusterNames(cluster_names);
-        cout << "error (in kmeans)= " << error << endl;
+        // cout << "error (in kmeans)= " << error << endl;
         update_cluster_centers(cluster_centers, clustered_points, k, THREADS);
         // cout<<"update_cluster_centers done"<<endl;
         cluster_names_copy = cluster_names;

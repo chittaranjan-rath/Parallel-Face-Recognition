@@ -114,12 +114,12 @@ int main(int argv, char **argc)
 
             printf("time = %f\n", f - t);
             time[i] = f - t;
-                if(THREADS ==1 )
-            for (int kk = 0; kk < predicted_image_info.size(); kk++)
-            {
-                tempFile << test_images[kk][0] << "," << test_images[kk][1] << ",";
-                tempFile << test_image_info[kk] << "," << predicted_image_info[kk] << "\n";
-            }
+            if (THREADS == 1)
+                for (int kk = 0; kk < predicted_image_info.size(); kk++)
+                {
+                    tempFile << test_images[kk][0] << "," << test_images[kk][1] << ",";
+                    tempFile << test_image_info[kk] << "," << predicted_image_info[kk] << "\n";
+                }
 
             if (predicted_image_info[0].size() > 0)
             {
@@ -365,7 +365,7 @@ int main(int argv, char **argc)
         std::size_t found = filename_train.find("Reduced");
         if (found != std::string::npos)
             temp_Name = "Reduced";
-        
+
         ostringstream str2;
         str2 << k_knn;
         string sNew = str2.str();
@@ -400,66 +400,78 @@ int main(int argv, char **argc)
             vector<string> predicted_KMeans;
             vector<string> predicted_KNN;
             vector<string> average_face_prediction;
-            cout<<"calln funcs"<<endl;
+            cout << "calln funcs" << endl;
             predicted_KMeans.resize(test_images.size());
             predicted_KNN.resize(test_images.size());
             average_face_prediction.resize(test_images.size());
 
-            knn_prediction(train_images, test_images, train_image_info, predicted_KNN, k_knn, distance_measure, THREADS);
-
-            avg_face = parallel_average_face(train_images, train_image_info, avg_face_info, THREADS, width, height);
-            // avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
-            means_prediction(avg_face, test_images, avg_face_info, average_face_prediction, THREADS, distance_measure);
-
-            kmeans(train_images, train_image_info, k_kmeans, width, height, distance_measure, THREADS, predicted_KMeans, test_images, test_image_info);
-            
-            int _size = predicted_KMeans.size();
-            predicted_image_info = ApplyEnsemble(predicted_KMeans, predicted_KNN, average_face_prediction, _size);
-            
-            for (int kk = 0; kk < predicted_image_info.size(); kk++)
-            {
-                tempFile << test_images[kk][0] << "," << test_images[kk][1] << ",";
-                tempFile << test_image_info[kk] << "," << predicted_image_info[kk] << "\n";
+        #pragma omp parallel 
+        {
+        #pragma omp sections 
+        {
+        #pragma omp section 
+        {
+                    knn_prediction(train_images, test_images, train_image_info, predicted_KNN, k_knn, distance_measure, THREADS);
+                }
+        #pragma omp section 
+        {
+                avg_face = parallel_average_face(train_images, train_image_info, avg_face_info, THREADS, width, height);
+                // avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
+                means_prediction(avg_face, test_images, avg_face_info, average_face_prediction, THREADS, distance_measure);
             }
-
-            accuracy = accuracy_score(predicted_image_info, test_image_info, THREADS);
-            accuracy_list[i] = accuracy;
-            
-            recall = recall_score(predicted_image_info, test_image_info, THREADS);
-            recall_list[i] = recall;
-
-            precision = precision_score(predicted_image_info, test_image_info, THREADS);
-            precision_list[i] = precision;
-
-            f1 = f1_score(predicted_image_info, test_image_info, THREADS);
-            f1_score_list[i] = f1;
-
-            cout << " Accuracy: " << accuracy << "\n";
-            cout << " Recall: " << recall << "\n";
-            cout << " Precision: " << precision << "\n";
-            cout << " F1 Score: " << f1 << "\n";
-            //cout << "Confusion Matrix: \n";
-
-            ostringstream str2;
-            str2 << time[i];
-            string sNew = str2.str();
-
-            myfile << sNewKNN << ",";
-            myfile << sNewMEANS << ",";
-            myfile << filename_train << ",";
-            myfile << THREADS << ",";
-            myfile << sNew << ",";
-            myfile << code_dist_m(distance_measure).c_str() << ",";
-            myfile << accuracy << ",";
-            myfile << recall << ",";
-            myfile << precision << ",";
-            myfile << f1 << "\n";
-
-            // contigency_matrix(predicted_image_info, test_image_info, THREADS, true);
-
-            visulalize_output(test_images, predicted_image_info, test_image_info, "prediction_ensemble/", width, height, THREADS);
+        #pragma omp section 
+        {
+            kmeans(train_images, train_image_info, k_kmeans, width, height, distance_measure, THREADS, predicted_KMeans, test_images, test_image_info);
         }
-        myfile.close();
-        tempFile.close();
-    }
+        }
+        }
+int _size = predicted_KMeans.size();
+predicted_image_info = ApplyEnsemble(predicted_KMeans, predicted_KNN, average_face_prediction, _size);
+
+for (int kk = 0; kk < predicted_image_info.size(); kk++)
+{
+    tempFile << test_images[kk][0] << "," << test_images[kk][1] << ",";
+    tempFile << test_image_info[kk] << "," << predicted_image_info[kk] << "\n";
+}
+
+accuracy = accuracy_score(predicted_image_info, test_image_info, THREADS);
+accuracy_list[i] = accuracy;
+
+recall = recall_score(predicted_image_info, test_image_info, THREADS);
+recall_list[i] = recall;
+
+precision = precision_score(predicted_image_info, test_image_info, THREADS);
+precision_list[i] = precision;
+
+f1 = f1_score(predicted_image_info, test_image_info, THREADS);
+f1_score_list[i] = f1;
+
+cout << " Accuracy: " << accuracy << "\n";
+cout << " Recall: " << recall << "\n";
+cout << " Precision: " << precision << "\n";
+cout << " F1 Score: " << f1 << "\n";
+//cout << "Confusion Matrix: \n";
+
+ostringstream str2;
+str2 << time[i];
+string sNew = str2.str();
+
+myfile << sNewKNN << ",";
+myfile << sNewMEANS << ",";
+myfile << filename_train << ",";
+myfile << THREADS << ",";
+myfile << sNew << ",";
+myfile << code_dist_m(distance_measure).c_str() << ",";
+myfile << accuracy << ",";
+myfile << recall << ",";
+myfile << precision << ",";
+myfile << f1 << "\n";
+
+// contigency_matrix(predicted_image_info, test_image_info, THREADS, true);
+
+visulalize_output(test_images, predicted_image_info, test_image_info, "prediction_ensemble/", width, height, THREADS);
+}
+myfile.close();
+tempFile.close();
+}
 }
