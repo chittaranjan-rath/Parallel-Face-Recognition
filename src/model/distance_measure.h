@@ -22,17 +22,28 @@ double manhattan_distance(vector<int>image1,vector<int>image2,int threads){
 
 double chebyshev_distance(vector<int>image1,vector<int>image2,int threads){
 
-  double dist = 0.0;
+  int size = image1.size();
+
+  double dist[size][1] = {0.0};
+  // memset(double,0,sizeof(dist[0]));
+
+  //  #pragma omp parallel for reduction(max:dist) num_threads(threads)
+  // omp_set_lock() could also be used
   
-  #pragma omp parallel for reduction(max:dist) num_threads(threads)
+  #pragma omp parallel for num_threads(threads)
   for(int i = 0;i<image1.size();i++){
 
-    if(abs(image1[i] - image2[i])>dist)
-    	dist = abs(image1[i] - image2[i]);
+    // if(abs(image1[i] - image2[i])>dist)
+    	dist[i][0] = abs(image1[i] - image2[i]);
 
   }
+  double maxdist = 0.0;
+  for(int i = 0;i<image1.size();i++){
+    if(maxdist<dist[i][0])
+      maxdist = dist[i][0];
+  }
 
-  return dist;
+  return maxdist;
 }
 
 double hellinger_distance(vector<int>image1,vector<int>image2,int threads){
