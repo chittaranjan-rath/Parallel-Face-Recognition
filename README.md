@@ -23,36 +23,37 @@ src/model
 <strong>To run Parallel KNN</strong><br>
 To compile: g++ -fopenmp -o main main.cpp<br>
 
-<h3>General Execution Format<\h3><br>
+<h3>General Execution Format</h3><br>
+
 ./main train_dataset_path test_dataset_path width height distance_measure k1 k2 algorithm
 
 <h3>Distance Measure Notation</h3><br>
-Euclidean: 11
-Manhattan: 22
-Chebychev: 33
-Hellinger: 44
+Euclidean: 11<br>
+Manhattan: 22<br>
+Chebychev: 33<br>
+Hellinger: 44<br>
 
 <h3>algorithm notation</h3><br>
-Kmeans: 0
-KNN: 1
-Average Face: 2
-Ensemble: 3
+Kmeans: 0<br>
+KNN: 1<br>
+Average Face: 2<br>
+Ensemble: 3<br>
 
 <h3>k1, k2 notation</h3><br>
-k1: k value for KMeans
-k2: k value for KNN
+k1: k value for KMeans<br>
+k2: k value for KNN<br>
 
-To run: KNN on reduced dataset Faces95
-./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 3 1
+To run: KNN on reduced dataset Faces95<br>
+./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 3 1<br>
 
-To run: KMeans on reduced dataset Faces95
-./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 72 0 0
+To run: KMeans on reduced dataset Faces95<br>
+./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 72 0 0<br>
 
-To run: Average Face on reduced dataset Faces95
-./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 0 2
+To run: Average Face on reduced dataset Faces95<br>
+./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 0 2<br>
 
-To run: Ensemble on reduced dataset Faces95
-./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 72 3 3
+To run: Ensemble on reduced dataset Faces95<br>
+./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 72 3 3<br>
 
 
 
