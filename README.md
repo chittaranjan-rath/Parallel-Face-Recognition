@@ -8,7 +8,11 @@ Data collection source URL: <br>
 <i>https://cswww.essex.ac.uk/mv/allfaces/faces94.html</i><br>
 <i>http://vision.ucsd.edu/~iskwak/ExtYaleDatabase/ExtYaleB.html</i><br>
 
+The above datasets were colored images which were converted to grayscale and then read into a csv file for further processing.<br>
 
+An example dataset can be found in data folder. Other medium to large datasets link can be found in data/dataset_link.md file.<br>
+
+<h3>Requirements:</h3><br>
 install boost<br>
 	sudo apt install libboost-all-dev
 
@@ -17,21 +21,39 @@ install boost<br>
 src/model
 
 <strong>To run Parallel KNN</strong><br>
-To compile: g++ -fopenmp -o knn knn.cpp<br>
-To run: ./knn
+To compile: g++ -fopenmp -o main main.cpp<br>
 
-<strong>To run Serial KNN</strong><br>
-export OMP_NUM_THREADS=1<br>
-Now follow the same command for running Parallel KNN
+<h3>General Execution Format<\h3><br>
+./main train_dataset_path test_dataset_path width height distance_measure k1 k2 algorithm
 
+<h3>Distance Measure Notation</h3><br>
+Euclidean: 11
+Manhattan: 22
+Chebychev: 33
+Hellinger: 44
 
-<strong>To run Parallel Means</strong><br>
-To compile: g++ -fopenmp -o means means.cpp<br>
-To run: ./means
+<h3>algorithm notation</h3><br>
+Kmeans: 0
+KNN: 1
+Average Face: 2
+Ensemble: 3
 
-<strong>To run Serial Means</strong><br>
-export OMP_NUM_THREADS=1<br>
-Now follow the same command for running Parallel Means
+<h3>k1, k2 notation</h3><br>
+k1: k value for KMeans
+k2: k value for KNN
+
+To run: KNN on reduced dataset Faces95
+./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 3 1
+
+To run: KMeans on reduced dataset Faces95
+./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 72 0 0
+
+To run: Average Face on reduced dataset Faces95
+./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 0 2
+
+To run: Ensemble on reduced dataset Faces95
+./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 72 3 3
+
 
 
 -------
@@ -39,7 +61,7 @@ Now follow the same command for running Parallel Means
 
 extract src.zip present inside folder Perform_SVD
 
-Ran on input data and perform dimensionality reduction till 99% contributing features taken cumulatively ( i.e. till 200 columns ) on input.
+Ran on input data and perform dimensionality reduction till 90% contributing features taken cumulatively ( i.e. till 200 columns ) on input.
 
 Final result is saved in <i>PostSVD_NewDimension.ods</i> ( with 200 features ).
 
