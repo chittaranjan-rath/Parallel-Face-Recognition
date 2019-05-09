@@ -12,18 +12,20 @@ The above datasets were colored images which were converted to grayscale and the
 
 An example dataset can be found in data folder. Other medium to large datasets link can be found in data/dataset_link.md file.<br>
 
-<h3>Requirements:</h3><br>
+<h3>Requirements:</h3>
 install boost<br>
-	sudo apt install libboost-all-dev
+sudo apt install libboost-all-dev
 
 <br>
+
 <strong>Navigate to</strong> : 
 src/model
 <br>
-<strong>To run Parallel KNN</strong><br>
+
+<strong>To Complie</strong><br>
 To compile: g++ -fopenmp -o main main.cpp<br>
 
-<h3>General Execution Format</h3><br>
+<h3>General Execution Format</h3>
 
 ./main train_dataset_path test_dataset_path width height distance_measure k1 k2 algorithm
 
@@ -40,21 +42,23 @@ KNN: 1<br>
 Average Face: 2<br>
 Ensemble: 3<br>
 
-<h3>Notation for k1, k2 </h3><br>
+<h3>Notation for k1, k2 </h3>
 k1: k value for KMeans<br>
 k2: k value for KNN<br>
 <br>
 
-To run: KNN on reduced dataset Faces95<br>
+<strong>To run: algorithms on reduced dataset Faces95</strong><br>
+
+<strong>KNN</strong><br>
 ./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 3 1<br>
 
-To run: KMeans on reduced dataset Faces95<br>
+<strong>KMeans</strong><br>
 ./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 72 0 0<br>
 
-To run: Average Face on reduced dataset Faces95<br>
+<strong>Average Face</strong><br>
 ./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 0 2<br>
 
-To run: Ensemble on reduced dataset Faces95<br>
+<strong>Ensemble</strong><br>
 ./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 72 3 3<br>
 
 
