@@ -16,10 +16,10 @@ An example dataset can be found in data folder. Other medium to large datasets l
 install boost<br>
 	sudo apt install libboost-all-dev
 
-
+<br>
 <strong>Navigate to</strong> : 
 src/model
-
+<br>
 <strong>To run Parallel KNN</strong><br>
 To compile: g++ -fopenmp -o main main.cpp<br>
 
@@ -27,21 +27,23 @@ To compile: g++ -fopenmp -o main main.cpp<br>
 
 ./main train_dataset_path test_dataset_path width height distance_measure k1 k2 algorithm
 
-<h3>Distance Measure Notation</h3><br>
+<h3>Distance Measure Notation</h3>
+
 Euclidean: 11<br>
 Manhattan: 22<br>
 Chebychev: 33<br>
 Hellinger: 44<br>
 
-<h3>algorithm notation</h3><br>
+<h3>Algorithm notation</h3>
 Kmeans: 0<br>
 KNN: 1<br>
 Average Face: 2<br>
 Ensemble: 3<br>
 
-<h3>k1, k2 notation</h3><br>
+<h3>Notation for k1, k2 </h3><br>
 k1: k value for KMeans<br>
 k2: k value for KNN<br>
+<br>
 
 To run: KNN on reduced dataset Faces95<br>
 ./main ../../data/Faces95/ReducedTrainingDataFaces95.csv ../../data/Faces95/ReducedTestFaces95.csv 196 196 11 0 3 1<br>
