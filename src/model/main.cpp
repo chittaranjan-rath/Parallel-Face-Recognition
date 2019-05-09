@@ -417,14 +417,14 @@ int main(int argv, char **argc){
         {
         #pragma omp section 
         {
-                    knn_prediction(train_images, test_images, train_image_info, predicted_KNN, k_knn, distance_measure, THREADS);
-                }
+            knn_prediction(train_images, test_images, train_image_info, predicted_KNN, k_knn, distance_measure, THREADS);
+        }
         #pragma omp section 
         {
-                avg_face = parallel_average_face(train_images, train_image_info, avg_face_info, THREADS, width, height);
-                // avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
-                means_prediction(avg_face, test_images, avg_face_info, average_face_prediction, THREADS, distance_measure);
-            }
+            avg_face = parallel_average_face(train_images, train_image_info, avg_face_info, THREADS, width, height);
+            // avg_face = generate_all_avg_face(train_images,train_image_info,avg_face_info);
+            means_prediction(avg_face, test_images, avg_face_info, average_face_prediction, THREADS, distance_measure);
+        }
         #pragma omp section 
         {
             kmeans(train_images, train_image_info, k_kmeans, width, height, distance_measure, THREADS, predicted_KMeans, test_images, test_image_info);

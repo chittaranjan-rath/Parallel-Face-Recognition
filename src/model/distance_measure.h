@@ -27,7 +27,8 @@ double chebyshev_distance(vector<int>image1,vector<int>image2,int threads){
   double dist[size][1] = {0.0};
   // memset(double,0,sizeof(dist[0]));
 
-  //  #pragma omp parallel for reduction(max:dist) num_threads(threads)
+  //Following cannot be used for OpenMp v3 or lesser
+  //  #pragma omp parallel for reduction(max:dist) num_threads(threads)  
   // omp_set_lock() could also be used
   
   #pragma omp parallel for num_threads(threads)
